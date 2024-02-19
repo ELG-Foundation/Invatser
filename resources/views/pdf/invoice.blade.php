@@ -3,6 +3,7 @@
 
 <head>
     <meta charset="utf-8" />
+
     <title>A simple, clean, and responsive HTML invoice template</title>
 
     <style>
@@ -160,28 +161,21 @@
                 <td>Price</td>
             </tr>
 
+            @php
+            $options = json_decode($users->product, true);
+            @endphp
+
+            @foreach($options as $arry_id => $option)
             <tr class="item">
-                <td>Website design</td>
-
-                <td>$300.00</td>
+                <td>{{ $option['product'] }}</td>
+                <td>{{ $option['total'] }}</td>
             </tr>
-
-            <tr class="item">
-                <td>Hosting (3 months)</td>
-
-                <td>$75.00</td>
-            </tr>
-
-            <tr class="item last">
-                <td>Domain name (1 year)</td>
-
-                <td>$10.00</td>
-            </tr>
+            @endforeach
 
             <tr class="total">
                 <td></td>
 
-                <td>Total: $385.00</td>
+                <td>Total: {{ $users->mtoal }}</td>
             </tr>
         </table>
     </div>

@@ -8,7 +8,7 @@ use App\Models\UserProduct;
 use Illuminate\Support\Arr;
 use Livewire\Attributes\Rule;
 use Livewire\Component;
-use Spatie\LaravelPdf\Facades\Pdf;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class InvoiceUser extends Component
 {
@@ -106,6 +106,14 @@ class InvoiceUser extends Component
 
     public function download()
     {
-        $html = view('pdf.invoice')->render();
-    }   
+        $invo = UserInvoice::where('user_id', auth()->user()->id)
+            ->where('id',  3)
+            ->first();
+    
+        $pdf = Pdf::loadView('pdf.invoice', ['users' => $invo]);
+
+        return response()->streamDownload(function () use ($pdf) {
+            echo $pdf->stream();
+        }, 'invoice.pdf');
+    }
 }
