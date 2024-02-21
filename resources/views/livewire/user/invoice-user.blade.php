@@ -15,7 +15,7 @@
         </div>
         <!-- Page Title Ends -->
 
-        
+
         <!-- Product List Starts -->
         <div class="space-y-4">
             <!-- Product Header Starts -->
@@ -115,25 +115,29 @@
                             <td>
                                 <input class="checkbox product-checkbox" type="checkbox" />
                             </td>
-                            <td>{{$invo->id}}</td>
-                            <td>$ {{$invo->mtoal}}</td>
-                            <td>{{$invo->created_at->format('d M y')}}</td>
+                            <td>{{ $invo->id }}</td>
+                            <td>$ {{ $invo->mtoal }}</td>
+                            <td>{{ $invo->created_at->format('d M y') }}</td>
                             <td>{{ $invo->user->name }}</td>
-                            <td>{{$invo->created_at->format('d M y')}}</td>
-                            <td><div class="badge badge-soft-success">
-                                Active</td>
-                    
+                            <td>{{ $invo->created_at->format('d M y') }}</td>
+                            <td>
+                                <div class="badge badge-soft-success">
+                                    Active
+                            </td>
+
                             <td>
                                 <div class="flex justify-end gap-x-2">
                                     <div class="dropdown" data-placement="bottom-start">
-                                        <div wire:click='delete({{$invo->id}})' class="dropdown-toggle">
-                                            <iconify-icon icon="solar:trash-bin-minimalistic-line-duotone" class="text-2xl text-danger-500">
+                                        <div wire:click='delete({{ $invo->id }})' class="dropdown-toggle">
+                                            <iconify-icon icon="solar:trash-bin-minimalistic-line-duotone"
+                                                class="text-2xl text-danger-500">
                                             </iconify-icon>
                                         </div>
                                     </div>
                                     <div class="dropdown" data-placement="bottom-start">
-                                        <div wire:click='download({{$invo->id}})' class="dropdown-toggle">
-                                            <iconify-icon icon="solar:trash-bin-minimalistic-line-duotone" class="text-2xl text-teal-300">
+                                        <div wire:click='download({{ $invo->id }})' class="dropdown-toggle">
+                                            <iconify-icon icon="solar:trash-bin-minimalistic-line-duotone"
+                                                class="text-2xl text-teal-300">
                                             </iconify-icon>
                                         </div>
                                     </div>
@@ -147,12 +151,12 @@
             <!-- Product Table Ends -->
 
             <!-- Product Pagination Starts -->
-            {{$prodli->links()}}
+            {{ $prodli->links() }}
             <!-- Product Pagination Ends -->
         </div>
         <!-- Product List Ends -->
         @elseif ($count == 2)
-        <form>
+        <form wire:poll>
             <div class="grid grid-cols-1 gap-6 xl:grid-cols-4">
                 <!--Left Side Div Starts -->
                 <div class="col-span-1 xl:col-span-3">
@@ -164,7 +168,8 @@
                                 <div class="flex items-center justify-center md:justify-start">
                                     <div class="flex h-16 w-full items-center gap-4 pr-4">
                                         <span class="inline-block flex-shrink-0">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="text-4xl w-12 h-12 text-[#8b5cf6]" viewBox="0 0 24 24">
+                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                class="text-4xl w-12 h-12 text-[#8b5cf6]" viewBox="0 0 24 24">
                                                 <path fill="currentColor"
                                                     d="M15 16.69V13h1.5v2.82l2.44 1.41l-.75 1.3zm-4.42 3.73L9 22l-1.5-1.5L6 22l-1.5-1.5L3 22V2l1.5 1.5L6 2l1.5 1.5L9 2l1.5 1.5L12 2l1.5 1.5L15 2l1.5 1.5L18 2l1.5 1.5L21 2v9.1a7.001 7.001 0 0 1-9.95 9.85a4.69 4.69 0 0 1-.47-.53m-.86-1.33c-.32-.66-.54-1.36-.65-2.09H6v-2h3.07c.1-.71.31-1.38.61-2H6v-2h5.1c1.27-1.24 3-2 4.9-2H6V7h12v2h-2c1.05 0 2.07.24 3 .68V4.91H5v14.18zM20.85 16c0-2.68-2.18-4.85-4.85-4.85c-1.29 0-2.5.51-3.43 1.42c-.91.93-1.42 2.14-1.42 3.43c0 2.68 2.17 4.85 4.85 4.85c.64 0 1.27-.12 1.86-.35c.58-.26 1.14-.62 1.57-1.07c.45-.43.81-.99 1.07-1.57c.23-.59.35-1.22.35-1.86" />
                                             </svg>
@@ -235,6 +240,23 @@
                                     <p class="text-xs font-medium uppercase text-slate-400">
                                         BILLED TO
                                     </p>
+                                    @if ($cltdat != null)
+
+                                    @php
+                                    $options = json_decode($cltdat->add_data, true)
+                                    @endphp
+
+                                    <h6 class="my-1">{{$cltdat->name}}</h6>
+                                    <p class="whitespace-nowrap text-sm font-normal text-slate-600 dark:text-slate-300">
+                                        {{$options['address']}}, {{$options['city']}}
+                                    </p>
+                                    <p class="whitespace-nowrap text-sm font-normal text-slate-600 dark:text-slate-300">
+                                        {{$options['state']}}, {{$options['country']}}
+                                    </p>
+                                    <p class="whitespace-nowrap text-sm font-normal text-slate-600 dark:text-slate-300">
+                                        Tel No: {{$cltdat->phone}}
+                                    </p>
+                                    @else
                                     <h6 class="my-1">John Doe</h6>
                                     <p class="whitespace-nowrap text-sm font-normal text-slate-600 dark:text-slate-300">
                                         206 Yonge St, Toronto - M4S
@@ -246,6 +268,7 @@
                                     <p class="whitespace-nowrap text-sm font-normal text-slate-600 dark:text-slate-300">
                                         Email: johndoe@example.com
                                     </p>
+                                    @endif
                                 </div>
                             </div>
                             <!-- Invoice Info Ends  -->
@@ -277,8 +300,9 @@
                                                 <template x-for="(field, index) in fields" :key="index">
                                                     <tr>
                                                         <td>
-                                                            <select x-model="field.txt3" data-rules='["required"]' name="txt3" class="select"
-                                                                autocomplete="off" @change="setprice($event)">
+                                                            <select x-model="field.txt3" data-rules='["required"]'
+                                                                name="txt3" class="select" autocomplete="off"
+                                                                @change="setprice($event)">
                                                                 <option>Add Item</option>
                                                                 @foreach ($prodli as $cate)
                                                                 <option value="{{ $cate->name }}"
@@ -289,12 +313,14 @@
                                                             </select>
                                                         </td>
                                                         <td>
-                                                            <input type="text" data-rules='["required"]' x-model="field.txt1" name="txt1"
-                                                                placeholder="0.00" @input.debounce.500ms="sumofvalue()"
-                                                                class="input" :value="field.price" />
+                                                            <input type="text" data-rules='["required"]'
+                                                                x-model="field.txt1" name="txt1" placeholder="0.00"
+                                                                @input.debounce.500ms="sumofvalue()" class="input"
+                                                                :value="field.price" />
                                                         </td>
                                                         <td>
-                                                            <input type="text" data-rules='["required"]' x-model="field.txt2"
+                                                            <input type="text" data-rules='["required"]'
+                                                                x-model="field.txt2"
                                                                 @input.debounce.500ms="sumofvalue()" name="txt2"
                                                                 placeholder="1" class="input" />
                                                         </td>
@@ -386,24 +412,24 @@
                 <div class="sticky top-20 col-span-1 h-max">
                     <div class="card">
                         <div class="card-body flex flex-col gap-4">
+
+                            <div class="w-full">
+                                <select wire:model.live='customer' class="select">
+                                    <option>Select Customer</option>
+                                    @foreach ($clntli as $item)
+                                        <option value="{{$item->id}}">{{$item->name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
                             <!-- Payment Method  -->
                             <div class="w-full">
                                 <select class="select">
-                                    <option value="">
-                                        Payment Method
-                                    </option>
-                                    <option value="1">
-                                        Bank Account
-                                    </option>
-                                    <option value="2">
-                                        Paypal
-                                    </option>
-                                    <option value="2">
-                                        Credit/Debit Card
-                                    </option>
-                                    <option value="2">
-                                        UPI Transfer
-                                    </option>
+                                    <option value="">Payment Method</option>
+                                    <option value="1">Bank Account</option>
+                                    <option value="2">Paypal</option>
+                                    <option value="2">Credit/Debit Card</option>
+                                    <option value="2">UPI Transfer</option>
                                 </select>
                             </div>
                             <!-- Send Email  -->
@@ -427,8 +453,7 @@
                             </div>
                             <!-- Save And Print Invoice  -->
                             <div class="flex flex-col gap-4 2xl:flex-row">
-                                <button 
-                                    @click="send()" type="button"
+                                <button @click="send()" type="button"
                                     class="btn btn-primary bg-[#8b5cf6] w-full font-medium">
                                     <i class="h-4" data-feather="save"></i>
                                     <span>Save</span>
@@ -505,11 +530,13 @@
                     send() {
                         if (this.fields.length == 0) {
                             console.log('its working');
-                            this.$dispatch('warning', { title: 'Nothing To Calculate!' });
+                            this.$dispatch('warning', {
+                                title: 'Nothing To Calculate!'
+                            });
                         } else {
                             this.$wire.invosav(this.fields, this.subtotal, this.balance, this.mtotal);
                         }
-                        
+
                     }
                 }
             }

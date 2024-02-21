@@ -234,7 +234,7 @@
                                     id="status">
                                     <option >Select Country</option>
                                     @foreach (App\Enums\country::cases() as $country)
-                                        <option value="{{ $country->name }}">{{ $country->value }}</option>
+                                        <option value="{{ $country->value }}">{{ $country->value }}</option>
                                     @endforeach
                                 </select>
                             </div>

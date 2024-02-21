@@ -3,6 +3,7 @@
 namespace App\Livewire\User;
 
 use App\Models\UserCategories;
+use App\Models\UserClient;
 use App\Models\UserInvoice;
 use App\Models\UserProduct;
 use Illuminate\Support\Arr;
@@ -28,21 +29,26 @@ class InvoiceUser extends Component
 
     public $total;
 
+    public $customer = null;
+
     #[Title('Invoice')]
     public function render()
     {
         $uid = auth()->user()->id;
 
-        $invoice = UserInvoice::where('user_id', $uid)->paginate(7);
-
-        $prodli = UserProduct::where('user_id', $uid)->paginate(7);
-
-        return view('livewire.user.invoice-user', compact('invoice', 'prodli'));
+        return view('livewire.user.invoice-user', [
+            'invoice' => UserInvoice::where('user_id',$uid)->paginate(7),
+            'prodli' => UserProduct::where('user_id', $uid)->paginate(7),
+            'clntli' => UserClient::where('user_id', $uid)->get(),
+            'cltdat' => UserClient::where('id', $this->customer)->first(),
+        ]);
     }
 
     public function mount()
     {
         $this->count = 1;
+
+        $this->customer = null;
     }
 
     public function addinvo()
@@ -78,8 +84,6 @@ class InvoiceUser extends Component
         $json = json_encode($jsonArray);
 
         $this->jsonArray = $json;
-
-        dd($this->jsonArray);
 
         UserInvoice::create([
             'user_id' => auth()->user()->id,
