@@ -45,7 +45,7 @@
             </li>
 
             <li>
-                <a wire:navigate href="./email.html" class="sidebar-menu">
+                <a wire:navigate href="{{route('user.clnt')}}" class="sidebar-menu {{request()->routeIs('user.clnt') ? 'active' : ''}}">
                     <span class="sidebar-menu-icon">
                         <iconify-icon icon="ph:users-duotone" class="font-bold text-2xl"></iconify-icon>
                     </span>

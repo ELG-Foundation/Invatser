@@ -5,6 +5,7 @@ use App\Livewire\Auth\LoginPg;
 use App\Livewire\Auth\SignupPg;
 use App\Livewire\Test;
 use App\Livewire\User\CategoriesPG;
+use App\Livewire\User\ClientPg;
 use App\Livewire\User\DashBoard;
 use App\Livewire\User\InvoiceUser;
 use App\Livewire\User\ProductIndex;
@@ -44,6 +45,7 @@ Route::group(['middleware' => ['IsUser'], 'prefix' => 'user'], function () {
     Route::get('product', ProductIndex::class)->name('user.prod');
     Route::get('categorie', CategoriesPG::class)->name('user.cate');
     Route::get('inoice', InvoiceUser::class)->name('user.invo');
+    Route::get('client', ClientPg::class)->name('user.clnt');
 });
 
 /*==================Admin Routes==================*/

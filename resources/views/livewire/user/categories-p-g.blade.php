@@ -154,6 +154,7 @@
             <!-- Product Pagination Starts -->
             {{$cateli->links()}}
             <!-- Product Pagination Ends -->
+            
         </div>
         <form wire:submit.prevent='catsave' id="form-basic" x-show="open" @click.outside="open = false" x-cloak
             class="mx-auto max-w-lg rounded-primary border border-slate-300 bg-white p-4 shadow dark:border-slate-600 dark:bg-slate-800 absolute top-[40%] left-[50%]"

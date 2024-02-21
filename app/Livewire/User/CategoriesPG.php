@@ -4,13 +4,18 @@ namespace App\Livewire\User;
 
 use App\Models\UserCategories;
 use Livewire\Attributes\Rule;
+use Livewire\Attributes\Title;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class CategoriesPG extends Component
 {
+    use WithPagination;
+
     #[Rule('required')]
     public $cate = '';
 
+    #[Title('Categories')]
     public function render()
     {
         $uid = auth()->user()->id;

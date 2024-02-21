@@ -132,7 +132,7 @@
                                         </div>
                                     </div>
                                     <div class="dropdown" data-placement="bottom-start">
-                                        <div wire:click='download' class="dropdown-toggle">
+                                        <div wire:click='download({{$invo->id}})' class="dropdown-toggle">
                                             <iconify-icon icon="solar:trash-bin-minimalistic-line-duotone" class="text-2xl text-teal-300">
                                             </iconify-icon>
                                         </div>
@@ -147,7 +147,7 @@
             <!-- Product Table Ends -->
 
             <!-- Product Pagination Starts -->
-
+            {{$prodli->links()}}
             <!-- Product Pagination Ends -->
         </div>
         <!-- Product List Ends -->

@@ -9,10 +9,13 @@ use Illuminate\Support\Arr;
 use Livewire\Attributes\Rule;
 use Livewire\Component;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Livewire\Attributes\Title;
+use Livewire\WithPagination;
 
 class InvoiceUser extends Component
 {
-
+    use WithPagination;
+    
     public $count;
 
     public $inputs = [];
@@ -25,18 +28,7 @@ class InvoiceUser extends Component
 
     public $total;
 
-    public function addinput($i)
-    {
-        $this->i = $i + 1;
-        array_push($this->inputs, $i);
-    }
-
-    public function removeinput($i)
-    {
-        unset($this->inputs[$i]);
-        $this->inputs = array_values($this->inputs);
-    }
-
+    #[Title('Invoice')]
     public function render()
     {
         $uid = auth()->user()->id;
@@ -88,7 +80,7 @@ class InvoiceUser extends Component
         $this->jsonArray = $json;
 
         dd($this->jsonArray);
-        
+
         UserInvoice::create([
             'user_id' => auth()->user()->id,
             'product' =>  $this->jsonArray,
@@ -104,16 +96,39 @@ class InvoiceUser extends Component
         $this->count = 1;
     }
 
-    public function download()
+    public function download($id)
     {
         $invo = UserInvoice::where('user_id', auth()->user()->id)
-            ->where('id',  3)
+            ->where('id', $id)
             ->first();
-    
-        $pdf = Pdf::loadView('pdf.invoice', ['users' => $invo]);
 
-        return response()->streamDownload(function () use ($pdf) {
-            echo $pdf->stream();
-        }, 'invoice.pdf');
+        if ($invo != null) {
+            $pdf = Pdf::loadView('pdf.invoice', ['users' => $invo]);
+
+            return response()->streamDownload(function () use ($pdf) {
+                echo $pdf->stream();
+            }, 'invoice.pdf');
+        } else {
+            $this->dispatch('warning', title: 'Invoice Not Found!');
+        }
+        
+    }
+
+    public function delete($id) 
+    {   
+        $uinvo = UserInvoice::where('id', $id)->get();
+
+        if ($uinvo != null) {
+            UserInvoice::find($id)->delete();
+            $this->dispatch('success', title: 'Invoice Deleted Successfully!');
+        } else {
+            $this->dispatch('warning', title: 'Invoice Not Found!');
+        }
+        
+    }
+
+    public function paginationView()
+    {
+        return 'livewire.user.comp.pagination-user';
     }
 }
