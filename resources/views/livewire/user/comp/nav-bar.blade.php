@@ -25,6 +25,7 @@
         <!-- Sidebar Menu Starts -->
         <ul class="sidebar-content">
             <!-- Dashboard -->
+            @if (auth()->user()->role == 'admin')
             <li>
                 <a wire:navigate href="{{route('dashboard')}}" class="sidebar-menu {{request()->routeIs('user.dash') ? 'active' : ''}}">
                     <span class="sidebar-menu-icon">
@@ -34,7 +35,7 @@
 
                 </a>
             </li>
-
+            @endif
             <li>
                 <a wire:navigate href="./email.html" class="sidebar-menu">
                     <span class="sidebar-menu-icon">
@@ -117,7 +118,7 @@
             </li>
 
             <li>
-                <a wire:navigate href="./email.html" class="sidebar-menu">
+                <a wire:navigate href="{{ route('user.pay') }}" class="sidebar-menu {{request()->routeIs('user.pay') ? 'active' : ''}}">
                     <span class="sidebar-menu-icon">
                         <iconify-icon icon="solar:card-2-line-duotone" class="font-bold text-2xl"></iconify-icon>
                     </span>

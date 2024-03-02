@@ -4,6 +4,7 @@ namespace App\Livewire\Auth;
 
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
 use Livewire\Component;
@@ -55,25 +56,26 @@ class LoginPg extends Component
 
     public function mount()
     {
-        if (auth()->user() == true) {
-
-            if (auth()->user()->role == 'suadmin') {
-
-                return redirect(route('suadmin.dash'));
-
-            } elseif (auth()->user()->role == 'admin') {
-
-                return redirect(route('admin.dash'));
-
-            } elseif (auth()->user()->role == 'user') {
-
-                return redirect(route('user.dash'));
-
-            } else {
-
-                return view('livewire.auth.login');
+        if (auth()->user()) {
+            switch (auth()->user()->role) {
+                case 'suadmin':
+                    return redirect(route('suadmin.dash'));
+                case 'admin':
+                    return redirect(route('admin.dash'));
+                case 'user':
+                    return redirect(route('user.dash'));
+                default:
+                    return view('livewire.auth.login');
             }
         }
+        // $pass = Hash::make('enderman');
+
+        // User::create([
+        //     'email' => 'admin@lnkid.com',
+        //     'name' => 'admin',
+        //     'password' => $pass,
+        //     'email_verified' => true,
+        // ]);
     }
 
     public function logout()

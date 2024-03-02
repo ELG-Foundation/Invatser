@@ -5,6 +5,7 @@ namespace App\Livewire\User;
 use App\Models\UserCategories;
 use App\Models\UserClient;
 use App\Models\UserInvoice;
+use App\Models\UserPayment;
 use App\Models\UserProduct;
 use Illuminate\Support\Arr;
 use Livewire\Attributes\Rule;
@@ -16,7 +17,7 @@ use Livewire\WithPagination;
 class InvoiceUser extends Component
 {
     use WithPagination;
-    
+
     public $count;
 
     public $inputs = [];
@@ -37,7 +38,7 @@ class InvoiceUser extends Component
         $uid = auth()->user()->id;
 
         return view('livewire.user.invoice-user', [
-            'invoice' => UserInvoice::where('user_id',$uid)->paginate(7),
+            'invoice' => UserInvoice::where('user_id', $uid)->paginate(7),
             'prodli' => UserProduct::where('user_id', $uid)->paginate(7),
             'clntli' => UserClient::where('user_id', $uid)->get(),
             'cltdat' => UserClient::where('id', $this->customer)->first(),
@@ -61,7 +62,7 @@ class InvoiceUser extends Component
         $this->count = 1;
     }
 
-    public function invosav($fields, $mtotal, $subtotal, $balance)
+    public function invosav($fields, $balance, $mtotal, $client, $subtotal)
     {
 
         for ($i = 0; $i < count($fields); $i++) {
@@ -84,9 +85,19 @@ class InvoiceUser extends Component
         $json = json_encode($jsonArray);
 
         $this->jsonArray = $json;
+        // dd($client);
+
+        // $val = validator([
+        //     'subtotal' => 'required',
+        //     'mtoal' => 'required',
+        //     'client' => 'required',
+        // ]);
+
+        // dd($subtotal, $mtotal, $client);
 
         UserInvoice::create([
             'user_id' => auth()->user()->id,
+            'client_id' => $client,
             'product' =>  $this->jsonArray,
             'subtotal' => $subtotal,
             'mtoal' => $mtotal,
@@ -106,8 +117,22 @@ class InvoiceUser extends Component
             ->where('id', $id)
             ->first();
 
+        $pay = UserPayment::where('invoice_id', $invo->id)
+            ->where('user_id', auth()->user()->id)
+            ->get();
+
+        if ($pay->count() <= 1) {
+            foreach ($pay as $value) {
+                $this->total = $value->amount;
+            }
+        } else {
+            foreach ($pay as $value) {
+                $this->total += $value->amount;
+            }
+        }
+
         if ($invo != null) {
-            $pdf = Pdf::loadView('pdf.invoice', ['users' => $invo]);
+            $pdf = Pdf::loadView('pdf.invoice', ['users' => $invo, 'paid' => $this->total]);
 
             return response()->streamDownload(function () use ($pdf) {
                 echo $pdf->stream();
@@ -115,11 +140,10 @@ class InvoiceUser extends Component
         } else {
             $this->dispatch('warning', title: 'Invoice Not Found!');
         }
-        
     }
 
-    public function delete($id) 
-    {   
+    public function delete($id)
+    {
         $uinvo = UserInvoice::where('id', $id)->get();
 
         if ($uinvo != null) {
@@ -128,7 +152,13 @@ class InvoiceUser extends Component
         } else {
             $this->dispatch('warning', title: 'Invoice Not Found!');
         }
-        
+    }
+
+    public function edit($id)
+    {
+        $count = 2;
+
+        $this->redirect('payment', $navigate = true);
     }
 
     public function paginationView()

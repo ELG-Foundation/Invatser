@@ -118,11 +118,10 @@
                             <td>{{ $invo->id }}</td>
                             <td>$ {{ $invo->mtoal }}</td>
                             <td>{{ $invo->created_at->format('d M y') }}</td>
-                            <td>{{ $invo->user->name }}</td>
+                            <td class="capitalize">{{ $invo->user->name }}</td>
                             <td>{{ $invo->created_at->format('d M y') }}</td>
                             <td>
-                                <div class="badge badge-soft-success">
-                                    Active
+                                <div class="badge badge-soft-success">Active</div>
                             </td>
 
                             <td>
@@ -136,9 +135,12 @@
                                     </div>
                                     <div class="dropdown" data-placement="bottom-start">
                                         <div wire:click='download({{ $invo->id }})' class="dropdown-toggle">
-                                            <iconify-icon icon="solar:trash-bin-minimalistic-line-duotone"
-                                                class="text-2xl text-teal-300">
-                                            </iconify-icon>
+                                            <iconify-icon icon="solar:download-minimalistic-outline" class="text-2xl text-teal-300"></iconify-icon>
+                                        </div>
+                                    </div>
+                                    <div class="dropdown" data-placement="bottom-start">
+                                        <div wire:click='edit({{ $invo->id }})' class="dropdown-toggle">
+                                            <iconify-icon icon="solar:pen-2-bold-duotone" class="text-2xl text-yellow-200"></iconify-icon>
                                         </div>
                                     </div>
                                 </div>
@@ -196,12 +198,7 @@
                                 <!-- Title and Date Start -->
                                 <div class="flex flex-col items-start gap-3 md:items-end">
                                     <h4>Invoice #1001</h4>
-                                    <div class="flex w-full flex-col items-start gap-2 sm:items-center md:flex-row">
-                                        <label for="invoice-date"
-                                            class="label w-full font-medium md:w-1/4 md:text-right">Date:</label>
-                                        <input id="invoice-date" class="input input-date bg-white dark:bg-slate-800"
-                                            type="text" x-mask="99-99-9999" placeholder="DD-MM-YYYY" />
-                                    </div>
+                                     
                                     <div class="flex w-full flex-col items-start gap-2 sm:items-center md:flex-row">
                                         <label for="invoice-due-date"
                                             class="label w-full font-medium md:w-1/4 md:text-right">Due
@@ -241,20 +238,19 @@
                                         BILLED TO
                                     </p>
                                     @if ($cltdat != null)
-
                                     @php
-                                    $options = json_decode($cltdat->add_data, true)
+                                    $options = json_decode($cltdat->add_data, true);
                                     @endphp
 
-                                    <h6 class="my-1">{{$cltdat->name}}</h6>
+                                    <h6 class="my-1">{{ $cltdat->name }}</h6>
                                     <p class="whitespace-nowrap text-sm font-normal text-slate-600 dark:text-slate-300">
-                                        {{$options['address']}}, {{$options['city']}}
+                                        {{ $options['address'] }}, {{ $options['city'] }}
                                     </p>
                                     <p class="whitespace-nowrap text-sm font-normal text-slate-600 dark:text-slate-300">
-                                        {{$options['state']}}, {{$options['country']}}
+                                        {{ $options['state'] }}, {{ $options['country'] }}
                                     </p>
                                     <p class="whitespace-nowrap text-sm font-normal text-slate-600 dark:text-slate-300">
-                                        Tel No: {{$cltdat->phone}}
+                                        Tel No: {{ $cltdat->phone }}
                                     </p>
                                     @else
                                     <h6 class="my-1">John Doe</h6>
@@ -414,10 +410,10 @@
                         <div class="card-body flex flex-col gap-4">
 
                             <div class="w-full">
-                                <select wire:model.live='customer' class="select">
+                                <select x-model="client" wire:model.live='customer' class="select">
                                     <option>Select Customer</option>
                                     @foreach ($clntli as $item)
-                                        <option value="{{$item->id}}">{{$item->name}}</option>
+                                    <option value="{{ $item->id }}">{{ $item->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -489,6 +485,7 @@
                     subtotal: 0,
                     balance: 0,
                     mtotal: 0,
+                    client: null,
 
                     addNewField() {
                         this.fields.push({
@@ -525,6 +522,7 @@
                     balanceof() {
                         const txtbal = parseFloat(this.balance) || 0;
                         const txtsub = parseFloat(this.subtotal) || 0;
+
                         this.mtotal = txtbal + txtsub;
                     },
                     send() {
@@ -534,9 +532,9 @@
                                 title: 'Nothing To Calculate!'
                             });
                         } else {
-                            this.$wire.invosav(this.fields, this.subtotal, this.balance, this.mtotal);
-                        }
 
+                            this.$wire.invosav(this.fields, this.balance, this.mtotal, this.client, this.subtotal);
+                        }
                     }
                 }
             }

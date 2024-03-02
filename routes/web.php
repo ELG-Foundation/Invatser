@@ -8,6 +8,7 @@ use App\Livewire\User\CategoriesPG;
 use App\Livewire\User\ClientPg;
 use App\Livewire\User\DashBoard;
 use App\Livewire\User\InvoiceUser;
+use App\Livewire\User\PaymentPg;
 use App\Livewire\User\ProductIndex;
 use Illuminate\Support\Facades\Route;
 
@@ -46,6 +47,7 @@ Route::group(['middleware' => ['IsUser'], 'prefix' => 'user'], function () {
     Route::get('categorie', CategoriesPG::class)->name('user.cate');
     Route::get('inoice', InvoiceUser::class)->name('user.invo');
     Route::get('client', ClientPg::class)->name('user.clnt');
+    Route::get('payment', PaymentPg::class)->name('user.pay');
 });
 
 /*==================Admin Routes==================*/

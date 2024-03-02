@@ -16,7 +16,6 @@ class Test extends Component
 
     public $i = 1;
 
-
     public function add($i)
 
     {
@@ -92,12 +91,9 @@ class Test extends Component
             ModelsUser::create(['name' => $this->name[$key], 'email' => $this->email[$key]]);
         }
 
-
         $this->inputs = [];
 
-
         $this->resetInputFields();
-
 
         session()->flash('message', 'Users Created Successfully.');
     }

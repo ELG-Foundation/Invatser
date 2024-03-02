@@ -17,4 +17,9 @@ class UserClient extends Model
         'active',
         'add_data',
     ];
+
+    public function payment()
+    {
+        return $this->hasMany(UserPayment::class);
+    }
 }

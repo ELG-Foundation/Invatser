@@ -3,6 +3,7 @@
 namespace App\Livewire\User;
 
 use App\Enums\country;
+use App\Http\Middleware\User;
 use App\Models\UserClient;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Validation\Rules\Enum;
@@ -13,10 +14,17 @@ use Ramsey\Uuid\Type\Integer;
 
 class ClientPg extends Component
 {
+
+    /** Public Counter */
     public $count;
 
+    /** Public Function To Handle Database */
     public $client;
 
+    /** Public Function To Handle Database */
+    public $clint;
+
+    /** Start Wire Form Data Collector */
     #[Validate('required')]
     public $county = '';
 
@@ -40,61 +48,121 @@ class ClientPg extends Component
 
     #[Validate('required')]
     public $state = '';
+    /** End Wire Form Data Collector */
+
 
     #[Title('Client')]
     public function render()
-    {
-
-        $clinli = UserClient::where('user_id', auth()->user()->id)->paginate(9);
-
-        return view('livewire.user.client-pg', compact('clinli'));
+    {   
+        //returning client list to view with pagination
+        return view('livewire.user.client-pg', [
+            'clinli' => UserClient::where('user_id', auth()->user()->id)->paginate(9),
+        ]);
     }
 
     public function saveclnt()
     {
+
+        // to run the validation
         $this->validate();
 
-        $data = json_encode([
-            'address' => $this->address,
-            'city' => $this->city,
-            'state' => $this->state,
-            'pincode' => $this->pincode,
-            'country' => $this->county,
-        ]);
+        //contion for save and edit
+        if ($this->count == 2) {
 
-        $ud = UserClient::create([
-            'user_id' => auth()->user()->id,
-            'name' => $this->name,
-            'phone' => $this->phone,
-            'email' => $this->email,
-            'add_data' => $data,
-        ]);
+            //this is for save
+            $data = json_encode([
+                'address' => $this->address,
+                'city' => $this->city,
+                'state' => $this->state,
+                'pincode' => $this->pincode,
+                'country' => $this->county,
+            ]);
+    
+            $ud = UserClient::create([
+                'user_id' => auth()->user()->id,
+                'name' => $this->name,
+                'phone' => $this->phone,
+                'email' => $this->email,
+                'add_data' => $data,
+            ]);
+    
+            $this->reset();
+    
+            $this->count = 1;
 
-        $this->reset();
+        } else {
 
-        $this->count = 1;
+            //this is for edit
+            $data = json_encode([
+                'address' => $this->address,
+                'city' => $this->city,
+                'state' => $this->state,
+                'pincode' => $this->pincode,
+                'country' => $this->county,
+            ]);
+
+            $this->client->update([
+                'user_id' => auth()->user()->id,
+                'name' => $this->name,
+                'phone' => $this->phone,
+                'email' => $this->email,
+                'add_data' => $data,
+            ]);
+
+            $this->reset();
+    
+            $this->count = 1;
+        }
     }
 
     public function mount()
     {
+        //mountion default count to 1
         $this->count = 1;
+
+        //getting the clien id and find the db
+        $this->client = UserClient::Where('id', $this->clint)->latest()->first();
+
+        //if the db table is not null
+        if ($this->client != null) {
+
+            //assign the db values to wire public value
+            $this->name = $this->client->name;
+            $this->phone = $this->client->phone;
+            $this->email = $this->client->email;
+
+            $option = json_decode($this->client->add_data);
+
+            $this->address = $option->address;
+            $this->city = $option->city;
+            $this->state = $option->state;
+            $this->pincode = $option->pincode;
+            $this->county = $option->country;
+        }
     }
 
+    //for add client button
     public function addclnt()
     {
         $this->count = 2;
     }
 
+    //for back button
     public function back()
     {
         $this->count = 1;
     }
 
+    //for the active button
     public function clntact($id)
     {
+        //getting id of the client and db
         $cid = UserClient::where('id', $id)->latest()->first();
 
+        //checking the client admin is current user
         if ($cid->user_id == auth()->user()->id) {
+
+            //if client status is inactive this will activate
             if ($cid->active == false) {
 
                 $cid->update([
@@ -102,7 +170,8 @@ class ClientPg extends Component
                 ]);
 
                 $this->dispatch('success', title: 'Updated Client Info!');
-                
+            
+            //if client status is active this will deactivate
             } else {
 
                 $cid->update([
@@ -111,9 +180,28 @@ class ClientPg extends Component
 
                 $this->dispatch('success', title: 'Updated Client Info!');
             }
-
+        
+        //if the client not found
         } else {
             $this->dispatch('error', title: 'Client Not Found!');
         }
+    }
+
+    //for the edit button
+    public function edit($id)
+    {
+        //getting the cliend id and mount it
+        $this->clint = $id;
+        
+        $this->mount();
+
+        //changing the count to edit tab
+        $this->count = 3;
+    }
+
+    //custom livewire pagination
+    public function paginationView()
+    {
+        return 'livewire.user.comp.pagination-user';
     }
 }

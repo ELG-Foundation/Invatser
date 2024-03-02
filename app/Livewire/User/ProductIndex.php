@@ -15,13 +15,17 @@ class ProductIndex extends Component
     use WithPagination;
 
     public $count;
+    
+    public $prodct;
+
+    public $prodid;
 
     #[Rule('required')]
     public $pname = '';
 
     #[Rule('required')]
     public $pcode = '';
-    
+
     #[Rule('required')]
     public $pdesc = '';
 
@@ -36,7 +40,7 @@ class ProductIndex extends Component
 
     #[Rule('required')]
     public $ppric = '';
-    
+
     public $pccode = '';
 
     // public $cateli;
@@ -44,14 +48,10 @@ class ProductIndex extends Component
     #[Title('Product')]
     public function render()
     {
-        $uid = auth()->user()->id;
-
-        $prodli = UserProduct::where('user_id', $uid)->paginate(9);
-
-        $cateli = UserCategories::where('user_id', $uid)->get();
-
-
-        return view('livewire.user.product-index', compact('prodli', 'cateli'));
+        return view('livewire.user.product-index', [
+            'prodli' => UserProduct::where('user_id', auth()->user()->id)->paginate(9),
+            'cateli' => UserCategories::where('user_id', auth()->user()->id)->get(),
+        ]);
     }
 
     public function mount()
@@ -60,9 +60,24 @@ class ProductIndex extends Component
 
         $this->pccode;
 
-        $uid = auth()->user()->id;
+        // $this->cateli = UserCategories::where('user_id', $uid)->get();
+        $this->prodct = UserProduct::Where('id', $this->prodid)->latest()->first();
 
-       // $this->cateli = UserCategories::where('user_id', $uid)->get();
+        if ($this->prodid != null) {
+            $this->pname = $this->prodct->name;
+            $this->pcode = $this->prodct->code;
+
+            $this->pccode = $this->prodct->code;
+            
+            $this->pdesc = $this->prodct->desc;
+            $this->ppric = $this->prodct->price;
+
+            $option = json_decode($this->prodct->detail);
+
+            $this->pstat = $option->stat;
+            $this->pcate = $option->cate;
+            $this->pvend = $option->vend;
+        }
     }
 
     public function addprod()
@@ -78,36 +93,70 @@ class ProductIndex extends Component
     public function prodsav()
     {
         $this->pcode = $this->pccode;;
-        $this->validate([
-            'pname' => 'required',
-            'pcode' => 'required',
-            'pdesc' => 'required',
-            'pcate' => 'required',
-            'pstat' => 'required',
-            'ppric' => 'required',
-            'pvend' => 'required',
-        ]);
 
-        $dat['stat'] = $this->pstat;
-        $dat['vend'] = $this->pvend;
-        $dat['cate'] = $this->pcate;
+        if ($this->count == 2) {
+            $this->validate([
+                'pname' => 'required',
+                'pcode' => 'required|min:6|max:6',
+                'pdesc' => 'required',
+                'pcate' => 'required',
+                'pstat' => 'required',
+                'ppric' => 'required',
+                'pvend' => 'required',
+            ]);
 
-        $det = json_encode($dat);
+            $dat['stat'] = $this->pstat;
+            $dat['vend'] = $this->pvend;
+            $dat['cate'] = $this->pcate;
 
-        UserProduct::create([
-            'user_id' => auth()->user()->id,
-            'name' => $this->pname,
-            'code' => $this->pccode,
-            'desc' => $this->pdesc,
-            'price' => $this->ppric,
-            'detail' => $det,
-        ]);
+            $det = json_encode($dat);
 
-        $this->dispatch('success', title: 'Product Created Successfull');
+            UserProduct::create([
+                'user_id' => auth()->user()->id,
+                'name' => $this->pname,
+                'code' => $this->pccode,
+                'desc' => $this->pdesc,
+                'price' => $this->ppric,
+                'detail' => $det,
+            ]);
 
-        $this->reset();
+            $this->dispatch('success', title: 'Product Created Successfull');
 
-        $this->count = 1;
+            $this->reset();
+
+            $this->count = 1;
+        } else {
+            $this->validate([
+                'pname' => 'required',
+                'pcode' => 'required|min:6|max:6',
+                'pdesc' => 'required',
+                'pcate' => 'required',
+                'pstat' => 'required',
+                'ppric' => 'required',
+                'pvend' => 'required',
+            ]);
+
+            $dat['stat'] = $this->pstat;
+            $dat['vend'] = $this->pvend;
+            $dat['cate'] = $this->pcate;
+
+            $det = json_encode($dat);
+
+            $this->prodct->update([
+                'user_id' => auth()->user()->id,
+                'name' => $this->pname,
+                'code' => $this->pccode,
+                'desc' => $this->pdesc,
+                'price' => $this->ppric,
+                'detail' => $det,
+            ]);
+
+            $this->dispatch('success', title: 'Product Created Successfull');
+
+            $this->reset();
+
+            $this->count = 1;
+        }
     }
 
     public function pcde()
@@ -124,13 +173,24 @@ class ProductIndex extends Component
         $prod = UserProduct::find($id);
 
         if ($uid == $prod->user_id) {
-            
+
             $prod->delete();
 
             $this->dispatch('success', title: 'Product Deleted Successfull!');
         } else {
             $this->dispatch('warning', title: 'Unauthrized Request Found!');
         }
+    }
+
+    public function edit($id)
+    {
+        //getting the cliend id and mount it
+        $this->prodid = $id;
+        
+        $this->mount();
+
+        //changing the count to edit tab
+        $this->count = 3;
     }
 
     public function paginationView()

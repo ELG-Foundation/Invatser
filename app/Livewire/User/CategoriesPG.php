@@ -3,6 +3,7 @@
 namespace App\Livewire\User;
 
 use App\Models\UserCategories;
+use App\Models\UserProduct;
 use Livewire\Attributes\Rule;
 use Livewire\Attributes\Title;
 use Livewire\Component;
@@ -11,6 +12,8 @@ use Livewire\WithPagination;
 class CategoriesPG extends Component
 {
     use WithPagination;
+
+    public $total;
 
     #[Rule('required')]
     public $cate = '';
@@ -35,6 +38,10 @@ class CategoriesPG extends Component
         $this->dispatch('success', title: 'Category Created Successfull!');
     }
 
+    public function mount()
+    {
+    }
+
     public function delete($id)
     {
         $uid = auth()->user()->id;
@@ -53,6 +60,7 @@ class CategoriesPG extends Component
         }
     }
 
+    //custom livewire pagination
     public function paginationView()
     {
         return 'livewire.user.comp.pagination-user';

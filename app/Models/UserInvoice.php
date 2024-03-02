@@ -11,9 +11,12 @@ class UserInvoice extends Model
 
     protected $fillable = [
         'user_id',
+        'client_id',
         'product',
         'subtotal',
         'mtoal',
+        'create_date',
+        'due_date',
         'balance',
     ];
 

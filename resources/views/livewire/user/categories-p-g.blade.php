@@ -119,28 +119,6 @@
                                             <iconify-icon icon="solar:trash-bin-minimalistic-line-duotone" class="text-2xl text-danger-500">
                                             </iconify-icon>
                                         </div>
-                                        {{-- <div class="dropdown-content w-40">
-                                            <ul class="dropdown-list">
-                                                <li class="dropdown-list-item">
-                                                    <a href="javascript:void(0)" class="dropdown-link">
-                                                        <i class="h-5 text-slate-400" data-feather="external-link"></i>
-                                                        <span>Details</span>
-                                                    </a>
-                                                </li>
-                                                <li class="dropdown-list-item">
-                                                    <a href="javascript:void(0)" class="dropdown-link">
-                                                        <i class="h-5 text-slate-400" data-feather="edit"></i>
-                                                        <span>Edit</span>
-                                                    </a>
-                                                </li>
-                                                <li class="dropdown-list-item">
-                                                    <a href="javascript:void(0)" class="dropdown-link">
-                                                        <i class="h-5 text-slate-400" data-feather="trash"></i>
-                                                        <span>Delete</span>
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </div> --}}
                                     </div>
                                 </div>
                             </td>
@@ -166,12 +144,12 @@
                 <!-- Form Row: Full name -->
                 <div class="w-full">
                     <label class="label label-required mb-4" for="form-basic-full-name">Category name</label>
-                    <input wire:model='cate' class="input" id="form-basic-full-name" name="full-name" type="text" placeholder="Category name">
+                    <input required wire:model='cate' class="input" id="form-basic-full-name" name="full-name" type="text" placeholder="Category name">
                 </div>
             </div>
             <!-- Form Footer -->
             <div class="mt-6 flex w-full items-center justify-end gap-2">
-                <button class="btn btn-primary" type="submit">Submit</button>
+                <button class="btn btn-primary bg-[#8b5cf6]" @click="open = false" type="submit">Submit</button>
                 <button class="btn btn-primary" type="button" @click="open = false">Cancle</button>
             </div>
         </form>

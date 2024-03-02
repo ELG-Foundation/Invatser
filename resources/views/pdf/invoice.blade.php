@@ -1,183 +1,341 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-    <meta charset="utf-8" />
-
-    <title>A simple, clean, and responsive HTML invoice template</title>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice</title>
+    <link rel="stylesheet" href="invoice.css">
     <style>
-        .invoice-box {
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: "Inter", sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .invoice {
             max-width: 800px;
             margin: auto;
-            padding: 30px;
-            border: 1px solid #eee;
+            padding: 20px;
+            background-color: #fff;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
-            font-size: 16px;
-            line-height: 24px;
-            font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
-            color: #555;
         }
 
-        .invoice-box table {
-            width: 100%;
-            line-height: inherit;
+        .header {
+            width: auto;
+            height: 42px;
+            background: #007aff;
+            font-weight: bold;
+            /* padding-top: 15px; */
+            padding-left: 20px;
+            padding-right: 20px;
+            margin-bottom: 20px;
+        }
+
+        .header h1 {
+            color: #fff;
+        }
+
+        .top1 {
+            float: left;
+            width: 33.33%;
+            font-size: 17px;
             text-align: left;
+            margin-top: 10px;
         }
 
-        .invoice-box table td {
-            padding: 5px;
-            vertical-align: top;
+        .top2 {
+            float: left;
+            width: 33.33%;
+            font-size: 17px;
+            text-align: center;
+            margin-top: 10px;
         }
 
-        .invoice-box table tr td:nth-child(2) {
+        .top3 {
+            float: left;
+            width: 33.33%;
+            font-size: 17px;
+            text-align: right;
+            margin-top: 10px;
+        }
+
+        .invoice_logo {
+            width: auto;
+            height: 90px;
+            background: #e5f1ff;
+            border: 1px solid #cce4ff;
+            margin-bottom: 20px;
+            grid-template-columns: repeat(3, 1fr);
+            display: grid;
+            list-style: none;
+            align-items: center;
+        }
+
+        .logo_div {
+            float: left;
+            width: 34%;
+            margin-top: 15px;
+            border-right: 1px solid #cce4ff;
+            padding-left: 20px;
+        }
+
+        .logo_div img {
+            height: 60px;
+            width: 60px;
+        }
+
+        .invoice_add {
+            width: auto;
+            height: 110px;
+            border: 1px solid rgba(123, 229, 255, 0.486);
+            margin-bottom: 20px;
+        }
+
+        .tm_accent_bg {
+            background: #007aff !important;
+            border: 0;
+        }
+
+        table {
+            margin: auto;
+        }
+
+        .tm_product {
+            width: 750px !important;
+        }
+
+        th {
+            padding: 10px 15px;
+            line-height: 1.55em;
+            text-align: left;
+            border-color: #007aff;
+        }
+
+        td {
+            padding: 10px 15px;
+            line-height: 1.55em;
+            border-top: 1px solid #dbdfea;
+        }
+
+        .tm_width_1 {
+            width: 8.33333333%;
+        }
+
+        .tm_width_6 {
+            width: 70%;
+        }
+
+        .tm_width_2 {
+            width: 16.66666667%;
+        }
+
+        .tm_width_3 {
+            width: 45%;
+        }
+
+        .tm_width_4 {
+            width: 150px;
+        }
+
+        .tm_width_7 {
+            width: 30%;
+        }
+
+        .tm_semi_bold {
+            font-weight: 600;
+        }
+
+        .tm_white_color {
+            color: white;
+        }
+
+        .tm_text_right {
             text-align: right;
         }
 
-        .invoice-box table tr.top table td {
-            padding-bottom: 20px;
+        .tm_accent_border_20 {
+            border-color: rgba(0, 122, 255, 0.2);
         }
 
-        .invoice-box table tr.top table td.title {
-            font-size: 45px;
-            line-height: 45px;
-            color: #333;
+        .tm_border_none {
+            border: none;
         }
 
-        .invoice-box table tr.information table td {
-            padding-bottom: 40px;
+        .tm_primary_color {
+            color: #111;
         }
 
-        .invoice-box table tr.heading td {
-            background: #eee;
-            border-bottom: 1px solid #ddd;
-            font-weight: bold;
+        .tm_bold {
+            font-weight: 700;
         }
 
-        .invoice-box table tr.details td {
-            padding-bottom: 20px;
+        .tm_border_right {
+            border-right: 1px solid #dbdfea;
         }
 
-        .invoice-box table tr.item td {
-            border-bottom: 1px solid #eee;
+        .tm_border_left {
+            border-left: 1px solid #dbdfea;
         }
 
-        .invoice-box table tr.item.last td {
-            border-bottom: none;
+        .tm_border_bottom {
+            border-bottom: 1px solid #dbdfea;
         }
 
-        .invoice-box table tr.total td:nth-child(2) {
-            border-top: 2px solid #eee;
-            font-weight: bold;
+        tr:nth-child(even) {
+            background: rgba(0, 122, 255, 0.1);
+            border-right: 1px solid #dbdfea;
+            border-left: 1px solid #dbdfea;
+            border-bottom: 1px solid #dbdfea;
         }
 
-        @media only screen and (max-width: 600px) {
-            .invoice-box table tr.top table td {
-                width: 100%;
-                display: block;
-                text-align: center;
-            }
-
-            .invoice-box table tr.information table td {
-                width: 100%;
-                display: block;
-                text-align: center;
-            }
+        tr:nth-child(odd) {
+            border-right: 1px solid #dbdfea;
+            border-left: 1px solid #dbdfea;
+            background: #fff
         }
 
-        /** RTL **/
-        .invoice-box.rtl {
-            direction: rtl;
-            font-family: Tahoma, 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
+        .invoice_total {
+            width: auto;
+            margin: auto;
         }
 
-        .invoice-box.rtl table {
-            text-align: right;
+        .total_sec {
+            width: 40%;
+            background: #fff;
+            margin-left: 472px;
         }
 
-        .invoice-box.rtl table tr td:nth-child(2) {
-            text-align: left;
+        .add_margin {
+            padding-top: 15px;
         }
     </style>
 </head>
 
 <body>
-    <div class="invoice-box">
-        <table cellpadding="0" cellspacing="0">
-            <tr class="top">
-                <td colspan="2">
-                    <table>
-                        <tr>
-                            <td class="title">
-                                <img src="https://sparksuite.github.io/simple-html-invoice-template/images/logo.png"
-                                    style="width: 100%; max-width: 300px" />
-                            </td>
+    <div class="invoice">
+        <div class="header">
+            <h1 class="top1">Date: {{ $users->created_at->format('d M Y') }}</h1>
+            <h1 class="top2">Invoice: {{ $users->id }}</h1>
+            <h1 class="top3">Status: <span style="color: rgb(162, 255, 162);">Paid</span></h1>
+        </div>
 
-                            <td>
-                                Invoice #: 123<br />
-                                Created: January 1, 2023<br />
-                                Due: February 1, 2023
+        <div class="invoice_logo">
+            <div class="logo_div tm_width_7"><img src="https://asuratoon.com/wp-content/uploads/2021/03/Group_1.png"
+                    alt=""></div>
+            <div class="logo_div">
+                <p> 90 Paul Street, London</p>
+                <p> England EC2A 4NE </p>
+                <p> United Kingdom </p>
+            </div>
+            <div class="logo_div tm_border_none">
+                <p> +01 983 345 213 </p>
+                <p> email@company.com </p>
+                <p> www.company.com </p>
+            </div>
+        </div>
+        <div class="invoice_add">
+            <div class="logo_div tm_width_7">
+                <h3>Billled To:</h3>
+                <p> 90 Paul Street, London</p>
+                <p> England EC2A 4NE </p>
+                <p> United Kingdom </p>
+            </div>
+            <div class="logo_div add_margin">
+                <p> 90 Paul Street, London</p>
+                <p> England EC2A 4NE </p>
+                <p> United Kingdom </p>
+            </div>
+            <div class="logo_div add_margin tm_border_none">
+                <p> 90 Paul Street, London</p>
+                <p> England EC2A 4NE </p>
+                <p> United Kingdom </p>
+            </div>
+        </div>
+        <div class="tm_table_responsive">
+            <table cellspacing="0" cellpadding="0" class="tm_product">
+                <thead>
+                    <tr class="tm_accent_bg">
+                        <th class="tm_width_1 tm_semi_bold tm_white_color">No.</th>
+                        <th class="tm_width_6 tm_semi_bold tm_white_color">Description</th>
+                        <th class="tm_width_2 tm_semi_bold tm_white_color">Price</th>
+                        <th class="tm_width_1 tm_semi_bold tm_white_color">Qty</th>
+                        <th class="tm_width_2 tm_semi_bold tm_white_color tm_text_right">Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @php
+                        $arra = json_decode($users->product, true);
+                    @endphp
+
+                    @if (count($arra) <= 1)
+                        <tr style="border-bottom: 1px solid #dbdfea;">
+                            <td class="tm_width_1 tm_accent_border_20">1.</td>
+                            <td class="tm_width_6 tm_accent_border_20">
+                                <b class="tm_primary_color tm_medium">{{ $arra[0]['product'] }}</b><br>
                             </td>
+                            <td class="tm_width_2 tm_accent_border_20">{{ $arra[0]['price'] }}</td>
+                            <td class="tm_width_1 tm_accent_border_20">{{ $arra[0]['quantity'] }}</td>
+                            <td class="tm_width_2 tm_accent_border_20 tm_text_right">{{ $arra[0]['total'] }}</td>
                         </tr>
-                    </table>
-                </td>
-            </tr>
-
-            <tr class="information">
-                <td colspan="2">
-                    <table>
-                        <tr>
-                            <td>
-                                Sparksuite, Inc.<br />
-                                12345 Sunny Road<br />
-                                Sunnyville, CA 12345
+                    @else
+                        @foreach ($arra as $index => $item)
+                            <tr>
+                                <td class="tm_width_1 tm_accent_border_20">1.</td>
+                                <td class="tm_width_6 tm_accent_border_20">
+                                    <b class="tm_primary_color tm_medium">{{ $arra[$index]['product'] }}</b><br>
+                                </td>
+                                <td class="tm_width_2 tm_accent_border_20">{{ $arra[$index]['price'] }}</td>
+                                <td class="tm_width_1 tm_accent_border_20">{{ $arra[$index]['quantity'] }}</td>
+                                <td class="tm_width_2 tm_accent_border_20 tm_text_right">{{ $arra[$index]['total'] }}
+                                </td>
+                            </tr>
+                        @endforeach
+                    @endif
+                </tbody>
+            </table>
+        </div>
+        <div class="invoice_total">
+            <div class="total_sec">
+                <table cellspacing="0" cellpadding="0">
+                    <tbody>
+                        <tr class="tm_border_left tm_border_right tm_accent_border_20">
+                            <td class="tm_width_4 tm_primary_color tm_accent_border_20 tm_border_none tm_bold">Subtoal
                             </td>
-
-                            <td>
-                                Acme Corp.<br />
-                                John Doe<br />
-                                john@example.com
-                            </td>
+                            <td
+                                class="tm_width_3 tm_primary_color tm_accent_border_20 tm_text_right tm_border_none tm_bold">
+                                {{ $users->subtotal }}</td>
                         </tr>
-                    </table>
-                </td>
-            </tr>
-
-            <tr class="heading">
-                <td>Payment Method</td>
-
-                <td>Check #</td>
-            </tr>
-
-            <tr class="details">
-                <td>Check</td>
-
-                <td>1000</td>
-            </tr>
-
-            <tr class="heading">
-                <td>Item</td>
-
-                <td>Price</td>
-            </tr>
-
-            @php
-            $options = json_decode($users->product, true);
-            @endphp
-
-            @foreach($options as $arry_id => $option)
-            <tr class="item">
-                <td>{{ $option['product'] }}</td>
-                <td>{{ $option['total'] }}</td>
-            </tr>
-            @endforeach
-
-            <tr class="total">
-                <td></td>
-
-                <td>Total: {{ $users->mtoal }}</td>
-            </tr>
-        </table>
+                        <tr class="tm_border_left tm_border_right tm_accent_border_20">
+                            <td class="tm_width_4 tm_primary_color tm_accent_border_20">Tax <span
+                                    class="tm_ternary_color">(5%)</span></td>
+                            <td class="tm_width_3 tm_primary_color tm_accent_border_20 tm_text_right">+$82</td>
+                        </tr>
+                        @if ($users->balance >= 1)
+                        <tr class="tm_border_left tm_border_right tm_accent_border_20">
+                            <td class="tm_width_4 tm_primary_color tm_accent_border_20">Balance</td>
+                            <td class="tm_width_3 tm_primary_color tm_accent_border_20 tm_text_right">
+                                {{ $users->balance }}</td>
+                        </tr>                        @endif
+                        <tr class="tm_border_left tm_border_right tm_accent_border_20">
+                            <td class="tm_width_4 tm_primary_color tm_accent_border_20">Paid</td>
+                            <td class="tm_width_3 tm_primary_color tm_accent_border_20 tm_text_right">{{$paid}}</td>
+                        </tr>
+                        <tr class="tm_border_bottom tm_border_left tm_border_right tm_accent_border_20 tm_accent_bg">
+                            <td class="tm_width_4 tm_bold tm_f16 tm_white_color tm_accent_border_20">Grand Total </td>
+                            <td class="tm_width_3 tm_bold tm_f16 tm_white_color tm_accent_border_20 tm_text_right">
+                                {{ $users->mtoal }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 </body>
 
