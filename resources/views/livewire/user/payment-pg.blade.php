@@ -183,14 +183,14 @@
                         <div class="flex flex-col gap-4">
                             <div>
                                 <label class="label label-required mb-1 font-medium" for="status">Invoice</label>
-                                <select wire:model='invoid' class="select @error('pstat') is-invalid @enderror"
+                                <select wire:model.live='invoid' class="select @error('pstat') is-invalid @enderror"
                                     id="status">
                                     <option>Select Invoice</option>
 
                                     @if (is_null($invoice))
                                     @else
-                                        <option value="{{ $invoice->id }}">{{ $invoice->id }}</option>
                                         @foreach ($invoice as $invoice)
+                                            <option value="{{ $invoice->id }}">{{ $invoice->id }}</option>
                                         @endforeach
                                     @endif
                                 </select>

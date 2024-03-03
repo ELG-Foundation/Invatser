@@ -50,16 +50,29 @@ class PaymentPg extends Component
         $this->count = 1;
     }
 
+    public function dehydrate()
+    {
+        if ($this->invoid != null) {
+            $invoice = UserInvoice::Where('id', $this->invoid)->first();
+    
+            if ($invoice) {
+                $this->amoutn = $invoice->mtoal;
+            } else {
+                $this->amoutn = 0;
+            }
+        }
+    }
+
     public function addpay()
     {
         $this->count = 2;
 
-        $this->invoice = UserInvoice::where('user_id', auth()->user()->id)->latest()->first();
+        $this->invoice = UserInvoice::where('user_id', auth()->user()->id)->orderBy('created_at')->get();;
     }
 
     public function back()
     {
-        $this->count = 1;     
+        $this->count = 1;
     }
 
     public function savepay()

@@ -20,7 +20,7 @@ class InvoiceUser extends Component
 
     public $count;
 
-    public $inputs = [];
+    public $cus;
 
     public $i;
 
@@ -50,10 +50,10 @@ class InvoiceUser extends Component
         $this->count = 1;
 
         if ($this->i != null) {
-            $cus = UserInvoice::where('id', $this->i)->latest()->first();
+            $this->cus = UserInvoice::where('id', $this->i)->latest()->first();
             
-            if ($cus != null) {
-                $this->customer = json_decode($cus, true);
+            if ($this->cus != null) {
+                $this->customer = json_decode($this->cus, true);
             }
         }
         
@@ -71,51 +71,94 @@ class InvoiceUser extends Component
 
     public function invosav($fields, $balance, $mtotal, $client, $subtotal)
     {
+        if ($this->count == 2) {
+            for ($i = 0; $i < count($fields); $i++) {
 
-        for ($i = 0; $i < count($fields); $i++) {
-
-            $ipt1 =  $fields[$i]['txt1'];
-            $ipt2 =  $fields[$i]['txt2'];
-            $ipt3 =  $fields[$i]['txt3'];
-            $total = $fields[$i]['total'];
-
-            $js = ([
-                'product' => $ipt3,
-                'price' => $ipt1,
-                'quantity' => $ipt2,
-                'total' => $total,
+                $ipt1 =  $fields[$i]['txt1'];
+                $ipt2 =  $fields[$i]['txt2'];
+                $ipt3 =  $fields[$i]['txt3'];
+                $total = $fields[$i]['total'];
+    
+                $js = ([
+                    'product' => $ipt3,
+                    'price' => $ipt1,
+                    'quantity' => $ipt2,
+                    'total' => $total,
+                ]);
+    
+                $jsonArray[] = $js;
+            }
+    
+            $json = json_encode($jsonArray);
+    
+            $this->jsonArray = $json;
+            // dd($client);
+    
+            // $val = validator([
+            //     'subtotal' => 'required',
+            //     'mtoal' => 'required',
+            //     'client' => 'required',
+            // ]);
+    
+            // dd($subtotal, $mtotal, $client);
+    
+            UserInvoice::create([
+                'user_id' => auth()->user()->id,
+                'client_id' => $client,
+                'product' =>  $this->jsonArray,
+                'subtotal' => $subtotal,
+                'mtoal' => $mtotal,
+                'balance' => $balance,
             ]);
-
-            $jsonArray[] = $js;
+    
+            $this->dispatch('success', title: 'Invoice Created Successfully!');
+    
+            // dd($this->jsonArray, $mtotal, $subtotal, $balance);
+    
+            $this->count = 1;
+        } else {
+            $this->dispatch('error', title: 'Unexpected Error!');
         }
+    }
 
-        $json = json_encode($jsonArray);
+    public function invoupd($efield, $balance, $mtotal, $client, $subtotal, $invot)
+    {
+        if ($this->count == 3) {
 
-        $this->jsonArray = $json;
-        // dd($client);
+            for ($i = 0; $i < count($efield); $i++) {
 
-        // $val = validator([
-        //     'subtotal' => 'required',
-        //     'mtoal' => 'required',
-        //     'client' => 'required',
-        // ]);
+                $ipt1 =  $efield[$i]['txt1'];
+                $ipt2 =  $efield[$i]['txt2'];
+                $ipt3 =  $efield[$i]['txt3'];
+                $total = $efield[$i]['total'];
+    
+                $js = ([
+                    'product' => $ipt3,
+                    'price' => $ipt1,
+                    'quantity' => $ipt2,
+                    'total' => $total,
+                ]);
+    
+                $jsonArray[] = $js;
+            }
+    
+            $json = json_encode($jsonArray);
+    
+            $this->jsonArray = $json;
 
-        // dd($subtotal, $mtotal, $client);
-
-        UserInvoice::create([
-            'user_id' => auth()->user()->id,
-            'client_id' => $client,
-            'product' =>  $this->jsonArray,
-            'subtotal' => $subtotal,
-            'mtoal' => $mtotal,
-            'balance' => $balance,
-        ]);
-
-        $this->dispatch('success', title: 'Invoice Created Successfully!');
-
-        // dd($this->jsonArray, $mtotal, $subtotal, $balance);
-
-        $this->count = 1;
+            $this->cus->update([
+                'product' =>  $this->jsonArray,
+                'subtotal' => $subtotal,
+                'mtoal' => $mtotal,
+                'balance' => $balance,
+            ]);
+    
+            $this->dispatch('success', title: 'Invoice Updated Successfully!');
+    
+            $this->count = 1;
+        } else {
+            $this->dispatch('error', title: 'Unexpected Error!');
+        }
     }
 
     public function download($id)
