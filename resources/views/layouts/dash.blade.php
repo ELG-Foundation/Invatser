@@ -18,6 +18,7 @@
   <link rel="stylesheet" href="{{ asset('assets/css/app.css') }}">
   <link rel="stylesheet" href="{{ asset('assets/css/global.css') }}">
   @vite('resources/css/app.css')
+  
   <script>
     if (
         localStorage.getItem('theme') === 'dark' ||
@@ -28,6 +29,7 @@
         document.documentElement.classList.remove('dark');
       }
   </script>
+  @livewireStyles
 </head>
 
 <body>
@@ -38,6 +40,8 @@
 
 
   @stack('js')
+
+  @livewireScripts
   <script src="https://code.iconify.design/iconify-icon/1.0.8/iconify-icon.min.js"></script>
 
 </body>

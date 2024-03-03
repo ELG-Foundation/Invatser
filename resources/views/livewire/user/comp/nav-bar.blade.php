@@ -1,5 +1,5 @@
 <div>
-    <aside class="sidebar">
+    <aside class="sidebar" :class="$store.menu.on && 'hidden'">
         <!-- Sidebar Header Starts -->
         <a wire:navigate href="/">
             <div class="sidebar-header">
@@ -25,7 +25,6 @@
         <!-- Sidebar Menu Starts -->
         <ul class="sidebar-content">
             <!-- Dashboard -->
-            @if (auth()->user()->role == 'admin')
             <li>
                 <a wire:navigate href="{{route('dashboard')}}" class="sidebar-menu {{request()->routeIs('user.dash') ? 'active' : ''}}">
                     <span class="sidebar-menu-icon">
@@ -35,7 +34,6 @@
 
                 </a>
             </li>
-            @endif
             <li>
                 <a wire:navigate href="./email.html" class="sidebar-menu">
                     <span class="sidebar-menu-icon">
@@ -155,4 +153,6 @@
         </ul>
         <!-- Sidebar Menu Ends -->
     </aside>
+
+    
 </div>

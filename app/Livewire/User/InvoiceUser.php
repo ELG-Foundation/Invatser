@@ -30,7 +30,7 @@ class InvoiceUser extends Component
 
     public $total;
 
-    public $customer = null;
+    public $customer;
 
     #[Title('Invoice')]
     public function render()
@@ -49,7 +49,14 @@ class InvoiceUser extends Component
     {
         $this->count = 1;
 
-        $this->customer = null;
+        if ($this->i != null) {
+            $cus = UserInvoice::where('id', $this->i)->latest()->first();
+            
+            if ($cus != null) {
+                $this->customer = json_decode($cus, true);
+            }
+        }
+        
     }
 
     public function addinvo()
@@ -156,9 +163,12 @@ class InvoiceUser extends Component
 
     public function edit($id)
     {
-        $count = 2;
 
-        $this->redirect('payment', $navigate = true);
+        $this->i = $id;
+
+        $this->mount();
+
+        $this->count = 3;
     }
 
     public function paginationView()
