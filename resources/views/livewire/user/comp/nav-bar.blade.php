@@ -143,7 +143,7 @@
             </li>
 
             <li>
-                <a wire:navigate href="./email.html" class="sidebar-menu">
+                <a wire:navigate href="{{route('user.set')}}" class="sidebar-menu {{request()->routeIs('user.set') ? 'active' : ''}}">
                     <span class="sidebar-menu-icon">
                         <iconify-icon icon="solar:settings-line-duotone" class="font-bold text-2xl"></iconify-icon>
                     </span>

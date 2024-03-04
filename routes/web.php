@@ -10,6 +10,7 @@ use App\Livewire\User\DashBoard;
 use App\Livewire\User\InvoiceUser;
 use App\Livewire\User\PaymentPg;
 use App\Livewire\User\ProductIndex;
+use App\Livewire\User\UserSettings;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -48,6 +49,7 @@ Route::group(['middleware' => ['IsUser'], 'prefix' => 'user'], function () {
     Route::get('inoice', InvoiceUser::class)->name('user.invo');
     Route::get('client', ClientPg::class)->name('user.clnt');
     Route::get('payment', PaymentPg::class)->name('user.pay');
+    Route::get('setting', UserSettings::class)->name('user.set');
 });
 
 /*==================Admin Routes==================*/

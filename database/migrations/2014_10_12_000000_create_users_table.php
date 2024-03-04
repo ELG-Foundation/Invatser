@@ -17,6 +17,12 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('profile')->default('assets/images/profile/pf.jpg');
             $table->string('role')->default('user');
+            $table->integer('phone')->nullable();
+            $table->json('address')->nullable();
+            $table->string('timezone')->default('Asia/Kolkata');
+            $table->string('currency')->nullable();
+            $table->timestamp('deletep')->nullable();
+            $table->json('noti')->nullable();
             $table->boolean('email_verified')->default(false);
             $table->string('password');
             $table->rememberToken();

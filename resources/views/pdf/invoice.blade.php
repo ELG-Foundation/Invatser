@@ -312,21 +312,26 @@
                                 class="tm_width_3 tm_primary_color tm_accent_border_20 tm_text_right tm_border_none tm_bold">
                                 {{ $users->subtotal }}</td>
                         </tr>
-                        <tr class="tm_border_left tm_border_right tm_accent_border_20">
+                        {{-- <tr class="tm_border_left tm_border_right tm_accent_border_20">
                             <td class="tm_width_4 tm_primary_color tm_accent_border_20">Tax <span
                                     class="tm_ternary_color">(5%)</span></td>
                             <td class="tm_width_3 tm_primary_color tm_accent_border_20 tm_text_right">+$82</td>
-                        </tr>
+                        </tr> --}}
                         @if ($users->balance >= 1)
-                        <tr class="tm_border_left tm_border_right tm_accent_border_20">
-                            <td class="tm_width_4 tm_primary_color tm_accent_border_20">Balance</td>
-                            <td class="tm_width_3 tm_primary_color tm_accent_border_20 tm_text_right">
-                                {{ $users->balance }}</td>
-                        </tr>                        @endif
-                        <tr class="tm_border_left tm_border_right tm_accent_border_20">
-                            <td class="tm_width_4 tm_primary_color tm_accent_border_20">Paid</td>
-                            <td class="tm_width_3 tm_primary_color tm_accent_border_20 tm_text_right">{{$paid}}</td>
-                        </tr>
+                            <tr class="tm_border_left tm_border_right tm_accent_border_20">
+                                <td class="tm_width_4 tm_primary_color tm_accent_border_20">Balance</td>
+                                <td class="tm_width_3 tm_primary_color tm_accent_border_20 tm_text_right">
+                                    {{ $users->balance }}</td>
+                            </tr>
+                        @endif
+
+                        @if (!is_null($paid))
+                            <tr class="tm_border_left tm_border_right tm_accent_border_20">
+                                <td class="tm_width_4 tm_primary_color tm_accent_border_20">Paid</td>
+                                <td class="tm_width_3 tm_primary_color tm_accent_border_20 tm_text_right">
+                                    {{ $paid }}</td>
+                            </tr>
+                        @endif
                         <tr class="tm_border_bottom tm_border_left tm_border_right tm_accent_border_20 tm_accent_bg">
                             <td class="tm_width_4 tm_bold tm_f16 tm_white_color tm_accent_border_20">Grand Total </td>
                             <td class="tm_width_3 tm_bold tm_f16 tm_white_color tm_accent_border_20 tm_text_right">
