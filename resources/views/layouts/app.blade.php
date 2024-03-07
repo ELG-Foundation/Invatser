@@ -65,8 +65,7 @@
 
   @livewireScripts
   <script src="https://code.iconify.design/iconify-icon/1.0.8/iconify-icon.min.js"></script>
-  <script src="{{ asset('assets/js/app.js') }}"></script>
-  <script src="{{ asset('assets/js/index.js') }}"></script>
+    
 </body>
 
 </html>

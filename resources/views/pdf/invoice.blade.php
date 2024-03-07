@@ -207,7 +207,7 @@
         }
 
         .total_sec {
-            width: 40%;
+            width: 41.4%;
             background: #fff;
             margin-left: 472px;
         }
@@ -230,32 +230,38 @@
             <div class="logo_div tm_width_7"><img src="https://asuratoon.com/wp-content/uploads/2021/03/Group_1.png"
                     alt=""></div>
             <div class="logo_div">
-                <p> 90 Paul Street, London</p>
-                <p> England EC2A 4NE </p>
-                <p> United Kingdom </p>
+                @php
+                    $adi = json_decode($admin->address, true);
+                @endphp
+                <p> {{$adi['street']}}</p>
+                <p> {{$adi['city']}}</p>
+                <p> {{$adi['country']}} - {{$adi['zip']}} </p>
             </div>
             <div class="logo_div tm_border_none">
-                <p> +01 983 345 213 </p>
-                <p> email@company.com </p>
-                <p> www.company.com </p>
+                <p> {{$admin->phone}} </p>
+                <p> {{$admin->email}} </p>
+                <p> {{config('app.url')}} </p>
             </div>
         </div>
         <div class="invoice_add">
             <div class="logo_div tm_width_7">
                 <h3>Billled To:</h3>
-                <p> 90 Paul Street, London</p>
-                <p> England EC2A 4NE </p>
-                <p> United Kingdom </p>
+                <p> {{$client->name}}</p>
+                <p> {{$client->email}} </p>
+                <p> {{$client->phone}} </p>
             </div>
             <div class="logo_div add_margin">
-                <p> 90 Paul Street, London</p>
-                <p> England EC2A 4NE </p>
-                <p> United Kingdom </p>
+                @php
+                    $option = json_decode($client->add_data, true);
+                @endphp
+                <p> {{$option['address']}}</p>
+                <p> {{$option['city']}},{{$option['state']}}</p>
+                <p> {{$option['country']}} - {{$option['pincode']}} </p>
             </div>
             <div class="logo_div add_margin tm_border_none">
-                <p> 90 Paul Street, London</p>
-                <p> England EC2A 4NE </p>
-                <p> United Kingdom </p>
+                <p> Date: {{ $users->due_date }}</p>
+                <p> Total: {{ $users->mtoal }}</p>
+                <p> Method: Soon</p>
             </div>
         </div>
         <div class="tm_table_responsive">

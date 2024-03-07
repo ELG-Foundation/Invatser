@@ -1,3 +1,4 @@
+{{--
 <!DOCTYPE html>
 <html lang="en">
 
@@ -348,6 +349,32 @@
             </div>
         </div>
     </div>
+</body>
+
+</html> --}}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    @vite('resources/css/app.css')
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+</head>
+
+<body>
+    <div class="h-screen w-screen bg-teal-100 flex justify-center items-center">
+        <div class="w-[560px] h-72 bg-white rounded-xl shadow-2xl flex justify-center items-center flex-col">
+            <h1 class="text-3xl font-bold">Enter Your OTP</h1>
+            <div class="mt-4 flex gap-x-3">
+                
+            </div>
+        </div>
+    </div>
+
 </body>
 
 </html>

@@ -2,6 +2,7 @@
 
 namespace App\Livewire\User;
 
+use App\Models\User;
 use App\Models\UserCategories;
 use App\Models\UserClient;
 use App\Models\UserInvoice;
@@ -32,6 +33,8 @@ class InvoiceUser extends Component
 
     public $customer;
 
+    public $balan;
+
     #[Title('Invoice')]
     public function render()
     {
@@ -56,7 +59,6 @@ class InvoiceUser extends Component
                 $this->customer = json_decode($this->cus, true);
             }
         }
-        
     }
 
     public function addinvo()
@@ -69,7 +71,7 @@ class InvoiceUser extends Component
         $this->count = 1;
     }
 
-    public function invosav($fields, $balance, $mtotal, $client, $subtotal)
+    public function invosav($fields, $balance, $mtotal, $client, $subtotal, $ddate)
     {
         if ($this->count == 2) {
             for ($i = 0; $i < count($fields); $i++) {
@@ -109,6 +111,7 @@ class InvoiceUser extends Component
                 'subtotal' => $subtotal,
                 'mtoal' => $mtotal,
                 'balance' => $balance,
+                'due_date' => $ddate,
             ]);
     
             $this->dispatch('success', title: 'Invoice Created Successfully!');
@@ -121,7 +124,7 @@ class InvoiceUser extends Component
         }
     }
 
-    public function invoupd($efield, $balance, $mtotal, $client, $subtotal, $invot)
+    public function invoupd($efield, $balance, $mtotal, $client, $subtotal, $invot, $ddate)
     {
         if ($this->count == 3) {
 
@@ -151,6 +154,7 @@ class InvoiceUser extends Component
                 'subtotal' => $subtotal,
                 'mtoal' => $mtotal,
                 'balance' => $balance,
+                'due_date' => $ddate,
             ]);
     
             $this->dispatch('success', title: 'Invoice Updated Successfully!');
@@ -171,6 +175,13 @@ class InvoiceUser extends Component
             ->where('user_id', auth()->user()->id)
             ->get();
 
+        $clint = UserClient::where('id', $invo->client_id)
+            ->where('user_id', auth()->user()->id)
+            ->first();
+
+        $used = User::where('id', auth()->user()->id)
+            ->first();
+
         if ($pay->count() <= 1) {
             foreach ($pay as $value) {
                 $this->total = $value->amount;
@@ -182,7 +193,7 @@ class InvoiceUser extends Component
         }
 
         if ($invo != null) {
-            $pdf = Pdf::loadView('pdf.invoice', ['users' => $invo, 'paid' => $this->total]);
+            $pdf = Pdf::loadView('pdf.invoice', ['users' => $invo, 'paid' => $this->total, 'client' => $clint, 'admin' => $used]);
 
             return response()->streamDownload(function () use ($pdf) {
                 echo $pdf->stream();
@@ -212,6 +223,21 @@ class InvoiceUser extends Component
         $this->mount();
 
         $this->count = 3;
+    }
+
+    public function balance($id)
+    {   
+        if ($id != "") {
+            $usrm = UserInvoice::where('client_id', $id)->first();
+
+            if (!is_null($usrm)) {
+                $this->balan = $usrm->mtoal;
+            } else {
+                $this->dispatch('error', title: 'Unexpeted Error!');
+            }
+        } else {
+            $this->balan = null;
+        }
     }
 
     public function paginationView()

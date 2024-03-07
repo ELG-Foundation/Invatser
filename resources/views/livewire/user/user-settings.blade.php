@@ -25,7 +25,7 @@
           <div class="card">
             <div class="card-body flex flex-col items-center">
               <div class="relative my-2 h-24 w-24 rounded-full">
-                <img src="/images/avatar11.png" alt="avatar-img" id="user-image" class="h-full w-full rounded-full" />
+                <img src="{{ asset(auth()->user()->profile) }}" alt="avatar-img" id="user-image" class="h-full w-full rounded-full" />
                 <label for="upload-avatar"
                   class="absolute bottom-0 right-0 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-slate-50 p-2 dark:bg-slate-900">
                   <span class="text-slate-600 dark:text-slate-300">
@@ -101,58 +101,77 @@
             <div class="card-body">
               <h2 class="text-[16px] font-semibold text-slate-700 dark:text-slate-300">Personal Details</h2>
               <p class="mb-4 text-sm font-normal text-slate-400">Manage your personal information</p>
-              <form method="get" class="flex flex-col gap-5">
+              <form wire:submit.prevent='basic' class="flex flex-col gap-5">
                 <!-- Name  -->
+                @if ($errors->any())
+                <div class="alert alert-danger">
+                  <ul>
+                    @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                    @endforeach
+                  </ul>
+                </div>
+                @endif
+
                 <div class="grid grid-cols-1 gap-5 md:grid-cols-2">
                   <label class="label" for="first-name">
                     <span class="my-1 block">Name</span>
-                    <input wire:model='name' type="text" class="input" value="Ahmed" id="first-name" />
+                    <input wire:model='name' type="text" class="input" />
                   </label>
                   <label class="label" for="last-name">
                     <span class="my-1 block">Company Name</span>
-                    <input wire:model='compname' type="text" class="input" value="Shakil" id="last-name" />
+                    <input wire:model='company' type="text" class="input" />
                   </label>
                 </div>
                 <!-- Phone & Email  -->
                 <div class="grid grid-cols-1 gap-5 md:grid-cols-2">
                   <label class="label" for="phone">
                     <span class="my-1 block">Phone Number</span>
-                    <input wire:model='phone' type="tell" class="input" value="+880 1834507645" id="phone" />
+                    <input wire:model='phone' type="tell"
+                      class="input [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
                   </label>
                   <label class="label" for="email">
                     <span class="my-1 block">Email</span>
-                    <input wire:model='email' type="email" class="input" value="ahmedshakil@example.com" id="email" />
+                    <input wire:model='email' type="email" class="input" />
                   </label>
                 </div>
                 <!-- Street & City  -->
                 <div class="grid grid-cols-1 gap-5 md:grid-cols-2">
                   <label class="label" for="street-address">
                     <span class="my-1 block">Street Address</span>
-                    <input type="text" class="input" value="15205 North California,  Suite 100" id="street-address" />
+                    <input wire:model='street' type="text" class="input" />
                   </label>
                   <label class="label" for="city-state">
                     <span class="my-1 block">City/State</span>
-                    <input type="text" class="input" value="California" id="city-state" />
+                    <input wire:model='city' type="text" class="input" />
                   </label>
                 </div>
                 <!-- Country & Zip  -->
                 <div class="grid grid-cols-1 gap-5 md:grid-cols-2">
                   <label class="label" for="country">
                     <span class="my-1 block">Country</span>
-                    <input type="text" class="input" value="United States" id="country" />
+                    <select wire:model='country' class="select @error('county') is-invalid @enderror" id="status">
+                      <option>Select Country</option>
+
+                      @foreach (App\Enums\country::cases() as $country)
+                      <option @if ($country->value == $country)selected @endif value="{{ $country->value }}">{{
+                        $country->value }}</option>
+                      @endforeach
+                    </select>
                   </label>
                   <label class="label" for="zip-code">
                     <span class="my-1 block">Zip Code</span>
-                    <input type="text" class="input" value="90011" id="zip-code" />
+                    <input wire:model='zip' type="number"
+                      class="input [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
                   </label>
                 </div>
                 <!-- Button  -->
                 <div class="flex items-center justify-end gap-4">
-                  <button type="cancel"
+                  <button wire:click.prevent='cancle'
                     class="btn border border-slate-300 text-slate-500 dark:border-slate-700 dark:text-slate-300">
                     Cancel
                   </button>
-                  <button type="submit" class="btn btn-primary">Update</button>
+                  <button type="submit" class="btn bg-[#8b5cf6]">Update</button>
                 </div>
               </form>
             </div>
@@ -164,7 +183,7 @@
               <p class="mb-4 text-sm font-normal text-slate-400">
                 Protect your account with a strong and secure password
               </p>
-              <form method="get" class="flex flex-col gap-5">
+              <form wire:submit='passsave' class="flex flex-col gap-5">
                 <div class="grid grid-cols-1 gap-5 md:grid-cols-2">
                   <label class="label" for="new-password">
                     <span class="my-1 block">New Password</span>
@@ -197,7 +216,7 @@
                 <div class="grid grid-cols-1 gap-5 md:grid-cols-2">
                   <label class="label" for="new-password">
                     <span class="my-1 block">Time Zone</span>
-                    <select class="tom-select">
+                    <select class="select">
                       <option value="1" selected>GMT - 07:00 Pacific Time</option>
                       <option value="2">UTC + 06:00 Dhaka Time</option>
                       <option value="3">UTC + 07:00 Samoa Time</option>
@@ -213,7 +232,7 @@
                   </label>
                   <label class="label" for="confirm-password">
                     <span class="my-1 block">Currency</span>
-                    <select class="tom-select">
+                    <select class="select">
                       <option value="1">KWD</option>
                       <option value="2">JOD</option>
                       <option value="3">GBP</option>

@@ -50,6 +50,7 @@ Route::group(['middleware' => ['IsUser'], 'prefix' => 'user'], function () {
     Route::get('client', ClientPg::class)->name('user.clnt');
     Route::get('payment', PaymentPg::class)->name('user.pay');
     Route::get('setting', UserSettings::class)->name('user.set');
+    Route::get('logout', [LoginPg::class, 'logout'])->name('user.out');
 });
 
 /*==================Admin Routes==================*/

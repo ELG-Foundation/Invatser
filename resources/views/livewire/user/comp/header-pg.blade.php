@@ -246,32 +246,32 @@
                 <!-- Notification Dropdown Ends -->
 
                 <!-- Profile Dropdown Starts -->
-                <div class="dropdown" data-strategy="absolute">
+                <div x-data="{drop: false}" class="dropdown" data-strategy="absolute">
                     <div class="dropdown-toggle pl-3">
                         <button class="group relative flex items-center gap-x-1.5" type="button">
-                            <div class="avatar avatar-circle avatar-indicator avatar-indicator-online">
+                            <div @click="drop = ! drop" class="avatar avatar-circle avatar-indicator avatar-indicator-online">
                                 <img class="avatar-img group-focus-within:ring group-focus-within:ring-primary-500"
                                     src="{{ asset(auth()->user()->profile) }}" alt="{{ auth()->user()->name }}" />
                             </div>
                         </button>
                     </div>
 
-                    <div class="dropdown-content mt-1 w-[11.25rem]">
+                    <div x-show="drop" @click.outside="drop = false" x-cloak class="fixed top-14 right-5 z-20 border-[1px] rounded-md bg-[#1e293b] border-[#334155] shadow-2xl mt-1 w-[11.25rem]">
                         <ul class="dropdown-list">
                             <li class="dropdown-list-item">
-                                <a href="javascript:void(0)" class="dropdown-link">
+                                <a wire:navigate href="{{ route('user.set')}}" class="dropdown-link ">
                                     <i width="18" height="18" data-feather="user"></i>
                                     <span>Profile</span>
                                 </a>
                             </li>
                             <li class="dropdown-list-item">
-                                <a href="javascript:void(0)" class="dropdown-link">
+                                <a wire:navigate href="{{ route('user.set')}}" class="dropdown-link ">
                                     <i width="18" height="18" data-feather="settings"></i>
                                     <span>Settings</span>
                                 </a>
                             </li>
                             <li class="dropdown-list-item">
-                                <a href="javascript:void(0)" class="dropdown-link">
+                                <a wire:navigate href="{{ route('user.out')}}" class="dropdown-link ">
                                     <i width="18" height="18" data-feather="log-out"></i>
                                     <span>Sign out</span>
                                 </a>

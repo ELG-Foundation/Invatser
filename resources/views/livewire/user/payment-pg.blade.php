@@ -139,89 +139,89 @@
                 <!-- Product Pagination Ends -->
         </div>
         <!-- Product List Ends -->
-    @elseif ($count == 2)
-        <form wire:submit='savepay'>
-            <div class="grid grid-cols-1 gap-6 lg:grid-cols-3 heigfull">
-                <!-- Left side Div Start -->
-                <section class="flex flex-col gap-8 lg:col-span-2 w-full">
-                    <!-- General  -->
-                    <div class="rounded-primary bg-white p-6 shadow-sm dark:bg-slate-800">
-                        <h5 class="m-0 p-0 text-xl font-semibold text-slate-700 dark:text-slate-200">Product</h5>
-                        <p class="mb-4 p-0 text-sm font-normal text-slate-400">
-                            Basic information of your product
-                        </p>
-                        <div class="py-2">
-                            <label class="label label-required mb-1 font-medium" for="name">Amount Recived</label>
-                            <input required type="number" wire:model='amoutn'
-                                class="input @error('pname') is-invalid @enderror [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-                                id="name" />
-                        </div>
-                        <div class="py-2">
-                            <label for="invoice-date" class="label label-required mb-1 font-medium">Date:</label>
-                            <div class="flex w-full flex-col items-start gap-2 sm:items-center md:flex-row">
+        @elseif ($count == 2)
+            <form wire:submit='savepay'>
+                <div class="grid grid-cols-1 gap-6 lg:grid-cols-3 heigfull">
+                    <!-- Left side Div Start -->
+                    <section class="flex flex-col gap-8 lg:col-span-2 w-full">
+                        <!-- General  -->
+                        <div class="rounded-primary bg-white p-6 shadow-sm dark:bg-slate-800">
+                            <h5 class="m-0 p-0 text-xl font-semibold text-slate-700 dark:text-slate-200">Product</h5>
+                            <p class="mb-4 p-0 text-sm font-normal text-slate-400">
+                                Basic information of your product
+                            </p>
+                            <div class="py-2">
+                                <label class="label label-required mb-1 font-medium" for="name">Amount Recived</label>
+                                <input required type="number" wire:model='amoutn'
+                                    class="input @error('pname') is-invalid @enderror [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                    id="name" />
+                            </div>
+                            <div class="py-2">
+                                <label for="invoice-date" class="label label-required mb-1 font-medium">Date:</label>
+                                <div class="flex w-full flex-col items-start gap-2 sm:items-center md:flex-row">
 
-                                <input required wire:model='date' id="invoice-date"
-                                    class="input input-date bg-white dark:bg-slate-800" type="text"
-                                    x-mask="99-99-9999" placeholder="DD-MM-YYYY" />
+                                    <input required wire:model='date' id="invoice-date"
+                                        class="input input-date bg-white dark:bg-slate-800" type="text"
+                                        x-mask="99-99-9999" placeholder="DD-MM-YYYY" />
+                                </div>
+                            </div>
+                            <div class="py-2">
+                                <label class="label label-required mb-1 font-medium">Admin Note</label>
+                                <textarea wire:model='note' class="textarea text-start @error('pdesc') is-invalid @enderror" rows="5"
+                                    placeholder="Write message"></textarea>
                             </div>
                         </div>
-                        <div class="py-2">
-                            <label class="label label-required mb-1 font-medium">Admin Note</label>
-                            <textarea wire:model='note' class="textarea text-start @error('pdesc') is-invalid @enderror" rows="5"
-                                placeholder="Write message"></textarea>
-                        </div>
-                    </div>
-                </section>
-                <!-- Left Side Div End  -->
+                    </section>
+                    <!-- Left Side Div End  -->
 
-                <!-- Right Side Div Start  -->
-                <section class="h-full lg:col-span-1">
-                    <!-- Organization -->
-                    <div class="sticky top-20 rounded-primary bg-white p-6 shadow dark:bg-slate-800">
-                        <h5 class="m-0 p-0 text-xl font-semibold text-slate-700 dark:text-slate-200">Organization</h5>
-                        <p class="mb-4 p-0 text-sm font-normal text-slate-400">Better organize your product</p>
-                        <div class="flex flex-col gap-4">
-                            <div>
-                                <label class="label label-required mb-1 font-medium" for="status">Invoice</label>
-                                <select wire:model.live='invoid' class="select @error('pstat') is-invalid @enderror"
-                                    id="status">
-                                    <option>Select Invoice</option>
+                    <!-- Right Side Div Start  -->
+                    <section class="h-full lg:col-span-1">
+                        <!-- Organization -->
+                        <div class="sticky top-20 rounded-primary bg-white p-6 shadow dark:bg-slate-800">
+                            <h5 class="m-0 p-0 text-xl font-semibold text-slate-700 dark:text-slate-200">Organization</h5>
+                            <p class="mb-4 p-0 text-sm font-normal text-slate-400">Better organize your product</p>
+                            <div class="flex flex-col gap-4">
+                                <div>
+                                    <label class="label label-required mb-1 font-medium" for="status">Invoice</label>
+                                    <select wire:model.live='invoid' class="select @error('pstat') is-invalid @enderror"
+                                        id="status">
+                                        <option>Select Invoice</option>
 
-                                    @if (is_null($invoice))
-                                    @else
-                                        @foreach ($invoice as $invoice)
-                                            <option value="{{ $invoice->id }}">{{ $invoice->id }}</option>
-                                        @endforeach
-                                    @endif
-                                </select>
+                                        @if (is_null($invoice))
+                                        @else
+                                            @foreach ($invoice as $invoice)
+                                                <option value="{{ $invoice->id }}">{{ $invoice->id }}</option>
+                                            @endforeach
+                                        @endif
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="label label-required mb-1 font-medium" for="status"> Status </label>
+                                    <select wire:model='stat' class="select @error('pstat') is-invalid @enderror"
+                                        id="status">
+                                        <option>Select Status</option>
+                                        <option value="unpaid">UnPaid</option>
+                                        <option value="partialpaid">Partial Paid</option>
+                                        <option value="paid">Paid</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="label label-required mb-1 font-medium" for="status"> Payment Method
+                                    </label>
+                                    <select wire:model='mode' class="select @error('pstat') is-invalid @enderror"
+                                        id="status">
+                                        <option>Select A Method</option>
+                                        <option value="bank">Bank / UPI</option>
+                                        <option value="cash">Cash</option>
+                                    </select>
+                                </div>
+                                <button class="btn btn-outline-primary" type="submit">Save</button>
                             </div>
-                            <div>
-                                <label class="label label-required mb-1 font-medium" for="status"> Status </label>
-                                <select wire:model='stat' class="select @error('pstat') is-invalid @enderror"
-                                    id="status">
-                                    <option>Select Status</option>
-                                    <option value="unpaid">UnPaid</option>
-                                    <option value="partialpaid">Partial Paid</option>
-                                    <option value="paid">Paid</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label class="label label-required mb-1 font-medium" for="status"> Payment Method
-                                </label>
-                                <select wire:model='mode' class="select @error('pstat') is-invalid @enderror"
-                                    id="status">
-                                    <option>Select A Method</option>
-                                    <option value="bank">Bank / UPI</option>
-                                    <option value="cash">Cash</option>
-                                </select>
-                            </div>
-                            <button class="btn btn-outline-primary" type="submit">Save</button>
                         </div>
-                    </div>
-                </section>
-                <!-- Right Side Div End  -->
-            </div>
-        </form>
+                    </section>
+                    <!-- Right Side Div End  -->
+                </div>
+            </form>
         @endif
     </main>
 </div>

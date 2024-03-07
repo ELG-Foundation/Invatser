@@ -204,11 +204,10 @@
 
                                     <div class="flex w-full flex-col items-start gap-2 sm:items-center md:flex-row">
                                         <label for="invoice-due-date"
-                                            class="label w-full font-medium md:w-1/4 md:text-right">Due
-                                            Date:</label>
+                                            class="label w-full font-medium md:w-1/3 md:text-right">Due Date:</label>
                                         <input id="invoice-due-date"
                                             class="input input-date bg-white dark:bg-slate-800" type="text"
-                                            x-mask="99-99-9999" placeholder="DD-MM-YYYY" />
+                                            x-mask="99-99-9999" placeholder="DD-MM-YYYY" x-model="ddate"/>
                                     </div>
                                 </div>
                                 <!-- Title and Date End -->
@@ -424,8 +423,8 @@
                         <div class="card-body flex flex-col gap-4">
 
                             <div class="w-full">
-                                <select x-model="client" wire:model.live='customer' class="select">
-                                    <option>Select Customer</option>
+                                <select x-model="client" wire:click='balance($event.target.value)' wire:model.live='customer' class="select">
+                                    <option value="">Select Customer</option>
                                     @foreach ($clntli as $item)
                                         <option value="{{ $item->id }}">{{ $item->name }}</option>
                                     @endforeach
@@ -484,8 +483,19 @@
                             </div>
                         </div>
                     </div>
+                    @if (!is_null($balan))
+                        <div class="card mt-2">
+                            <div class="card-body flex flex-col gap-4">
+                                <select  class="select">
+                                    <option value="">Add Remaining</option>
+                                    <option value="{{$balan}}">{{$balan}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    @endif
                 </div>
                 <!--Right Side Div Ends -->
+                
             </div>
         </form>
     @elseif ($count == 3)
@@ -537,7 +547,7 @@
                                             Date:</label>
                                         <input id="invoice-due-date"
                                             class="input input-date bg-white dark:bg-slate-800" type="text"
-                                            x-mask="99-99-9999" placeholder="DD-MM-YYYY" />
+                                            x-mask="99-99-9999" placeholder="DD-MM-YYYY" x-model="ddate"/>
                                     </div>
                                 </div>
                                 <!-- Title and Date End -->
@@ -639,8 +649,14 @@
                                                     <tr>
                                                         <td>
                                                             <select x-model="field.txt3" data-rules='["required"]'
-                                                                name="txt3" class="select" autocomplete="off">
+                                                                name="txt3" class="select" autocomplete="off" @change="setprice($event)">
                                                                 <option x-text="field.txt3"></option>
+                                                                @foreach ($prodli as $cate)
+                                                                    <option value="{{ $cate->name }}"
+                                                                        data-price="{{ $cate->price }}">
+                                                                        {{ $cate->name }}
+                                                                    </option>
+                                                                @endforeach
                                                             </select>
                                                         </td>
                                                         <td>
@@ -822,6 +838,7 @@
                     balance: 0,
                     mtotal: 0,
                     client: null,
+                    ddate: null,
 
                     init() {
                         this.client = null;
@@ -834,13 +851,13 @@
                             txt3: '',
                             total: '',
                             price: '',
-
                         });
                     },
                     removeField(index) {
                         this.fields.splice(index, 1);
                     },
                     sumofvalue() {
+                        console.log(true);
                         let totalSum = 0;
                         this.fields.forEach((field, index) => {
                             const txt1Value = parseFloat(field.txt1) || 0;
@@ -859,6 +876,7 @@
                                 this.fields[index].txt1 = price;
                             }
                         });
+                        console.log(this.fields);
                     },
                     balanceof() {
                         const txtbal = parseFloat(this.balance) || 0;
@@ -873,7 +891,7 @@
                             });
                         } else {
 
-                            this.$wire.invosav(this.fields, this.balance, this.mtotal, this.client, this.subtotal);
+                            this.$wire.invosav(this.fields, this.balance, this.mtotal, this.client, this.subtotal, this.ddate);
                         }
                     }
                 }
@@ -888,6 +906,7 @@
                     mtotal: 0,
                     client: null,
                     invot: null,
+                    ddate: null,
 
                     check() {
                         if (this.$wire.count == 3) {
@@ -913,6 +932,7 @@
                             this.mtotal = this.customer['mtoal']
                             this.client = this.customer['client_id']
                             this.invot = this.customer['id']
+                            this.ddate = this.customer['due_date']
 
                         } else {
                             this.$wire.count = 1;
@@ -933,8 +953,6 @@
                             txt2: '',
                             txt3: '',
                             total: '',
-                            price: '',
-
                         });
                     },
 
@@ -944,15 +962,41 @@
                         this.subtotal = 0;
 
                         this.efield.forEach((field, index) => {
-                            const txt1Value = parseFloat(field.txt1) || 0;
-                            const txt2Value = parseFloat(field.txt2) || 0;
-                            totalSum = txt1Value * txt2Value;
-                            this.efield[index].total = totalSum;
+                                const txt1Value = parseFloat(field.txt1) || 0;
+                                const txt2Value = parseFloat(field.txt2) || 0;
+                                totalSum = txt1Value * txt2Value;
+                                this.efield[index].total = totalSum;
 
-                            this.subtotal += this.efield[index].total;
+                                this.subtotal += this.efield[index].total;
                         });
 
                         this.mtotal = this.subtotal
+                    },
+
+                    sumofvalue() {
+                        const selectedOption = event.target.options[event.target.selectedIndex];
+                        const price = selectedOption.dataset.price;
+                        this.fields.forEach((field, index) => {
+                            if (this.fields[index].txt3 === selectedOption.value) {
+                                this.fields[index].txt1 = price;
+                            }
+                        });
+                    },
+
+                    setprice(event) {
+                        const selectedOption = event.target.options[event.target.selectedIndex];
+                        const price = selectedOption.dataset.price;
+                        this.efield.forEach((field, index) => {
+                            if (this.field.txt3 === selectedOption.value) {
+                                this.field.txt1 = price;
+                            }
+                        });
+                    },
+                    balanceof() {
+                        const txtbal = parseFloat(this.balance) || 0;
+                        const txtsub = parseFloat(this.subtotal) || 0;
+
+                        this.mtotal = txtbal + txtsub;
                     },
 
                     send() {

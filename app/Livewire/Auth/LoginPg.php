@@ -33,7 +33,7 @@ class LoginPg extends Component
         $this->validate([
             'email' => 'required|email',
             'password' => 'required',
-            'checkbox' => 'required',
+            'checkbox' => 'required|nullable',
         ]);
 
         $user = User::where('email', $this->email)->first();
