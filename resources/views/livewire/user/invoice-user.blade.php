@@ -943,7 +943,7 @@
 
                         this.myArr.splice(index, 1);
                         this.efield.splice(index, 1);
-
+                        this.sumofedit();
                         console.log(this.efield);
                     },
 
@@ -1001,7 +1001,7 @@
                             });
                         } else {
 
-                            this.$wire.invoupd(this.efield, this.balance, this.mtotal, this.client, this.subtotal, this.invot);
+                            this.$wire.invoupd(this.efield, this.balance, this.mtotal, this.client, this.subtotal, this.invot, this.ddate);
                         }
                     }
 
