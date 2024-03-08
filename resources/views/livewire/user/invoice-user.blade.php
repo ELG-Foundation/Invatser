@@ -486,7 +486,7 @@
                     @if (!is_null($balan))
                         <div class="card mt-2">
                             <div class="card-body flex flex-col gap-4">
-                                <select  class="select">
+                                <select @change="setbalan($event)" class="select">
                                     <option value="">Add Remaining</option>
                                     <option value="{{$balan}}">{{$balan}}</option>
                                 </select>
@@ -884,6 +884,10 @@
                         const txtsub = parseFloat(this.subtotal) || 0;
 
                         this.mtotal = txtbal + txtsub;
+                    },
+
+                    setbalan(event) {
+                        this.balance = event.target.value
                     },
                     send() {
                         if (this.fields.length == 0) {
