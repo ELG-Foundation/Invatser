@@ -116,7 +116,7 @@
                                         <input class="checkbox product-checkbox" type="checkbox" />
                                     </td>
                                     <td>{{ $invo->id }}</td>
-                                    <td>$ {{ $invo->mtoal }}</td>
+                                    <td>&#x20B9; {{ $invo->mtoal }}</td>
                                     <td>{{ $invo->created_at->format('d M y') }}</td>
                                     <td class="capitalize">{{ $invo->user->name }}</td>
                                     <td>{{ $invo->created_at->format('d M y') }}</td>

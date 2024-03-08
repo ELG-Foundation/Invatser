@@ -286,7 +286,7 @@
                             <td class="tm_width_6 tm_accent_border_20">
                                 <b class="tm_primary_color tm_medium">{{ $arra[0]['product'] }}</b><br>
                             </td>
-                            <td class="tm_width_2 tm_accent_border_20">{{ $arra[0]['price'] }}</td>
+                            <td class="tm_width_2 tm_accent_border_20">&#x20B9; {{ $arra[0]['price'] }}</td>
                             <td class="tm_width_1 tm_accent_border_20">{{ $arra[0]['quantity'] }}</td>
                             <td class="tm_width_2 tm_accent_border_20 tm_text_right">{{ $arra[0]['total'] }}</td>
                         </tr>

@@ -47,16 +47,18 @@ class UserSettings extends Component
 
         if (!is_null($this->usd->address)) {
             $address = json_decode($this->usd->address, true);
+
+            $this->name = $this->usd->name;
+            $this->email = $this->usd->email;
+            $this->phone = $this->usd->phone ?? '';
+            $this->company = $this->usd->company ?? '';
+            $this->street = $address['street'] ?? '';
+            $this->city = $address['city'] ?? '';
+            $this->zip = $address['zip'] ?? '';
+            $this->country = $address['country'];
         }
 
-        $this->name = $this->usd->name;
-        $this->email = $this->usd->email;
-        $this->phone = $this->usd->phone ?? '';
-        $this->company = $this->usd->company ?? '';
-        $this->street = $address['street'] ?? '';
-        $this->city = $address['city'] ?? '';
-        $this->zip = $address['zip'] ?? '';
-        $this->country = $address['country'];
+        
     }
 
     public function basic()

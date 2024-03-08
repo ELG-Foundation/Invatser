@@ -233,13 +233,7 @@
                   <label class="label" for="confirm-password">
                     <span class="my-1 block">Currency</span>
                     <select class="select">
-                      <option value="1">KWD</option>
-                      <option value="2">JOD</option>
-                      <option value="3">GBP</option>
-                      <option value="4">CHF</option>
-                      <option value="5" selected>USD</option>
-                      <option value="6">EUR</option>
-                      <option value="7">KYD</option>
+                      <option value="₹" selected>INR</option>
                     </select>
                   </label>
                 </div>
