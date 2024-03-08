@@ -855,18 +855,19 @@
                     },
                     removeField(index) {
                         this.fields.splice(index, 1);
+                        this.sumofvalue();
                     },
+
                     sumofvalue() {
-                        console.log(true);
-                        let totalSum = 0;
-                        this.fields.forEach((field, index) => {
-                            const txt1Value = parseFloat(field.txt1) || 0;
-                            const txt2Value = parseFloat(field.txt2) || 0;
-                            totalSum = txt1Value * txt2Value;
-                            this.fields[index].total = totalSum;
-                            this.subtotal += totalSum;
+                        this.subtotal = 0;
+
+                        this.fields.forEach(field => {
+                            field.total = field.txt1 * field.txt2;
+                            let m = this.subtotal + field.total;
+                            this.subtotal = m;
                         });
-                        this.mtotal = this.subtotal
+                        this.mtotal = this.subtotal;
+                        this.balanceof();
                     },
                     setprice(event) {
                         const selectedOption = event.target.options[event.target.selectedIndex];
@@ -876,7 +877,7 @@
                                 this.fields[index].txt1 = price;
                             }
                         });
-                        console.log(this.fields);
+                       console.log(this.fields);
                     },
                     balanceof() {
                         const txtbal = parseFloat(this.balance) || 0;
@@ -890,7 +891,6 @@
                                 title: 'Nothing To Calculate!'
                             });
                         } else {
-
                             this.$wire.invosav(this.fields, this.balance, this.mtotal, this.client, this.subtotal, this.ddate);
                         }
                     }
@@ -957,20 +957,15 @@
                     },
 
                     sumofedit() {
-                        console.log(true);
-                        let totalSum = 0;
                         this.subtotal = 0;
 
-                        this.efield.forEach((field, index) => {
-                                const txt1Value = parseFloat(field.txt1) || 0;
-                                const txt2Value = parseFloat(field.txt2) || 0;
-                                totalSum = txt1Value * txt2Value;
-                                this.efield[index].total = totalSum;
-
-                                this.subtotal += this.efield[index].total;
+                        this.efield.forEach(field => {
+                            field.total = field.txt1 * field.txt2;
+                            let m = this.subtotal + field.total;
+                            this.subtotal = m;
                         });
-
-                        this.mtotal = this.subtotal
+                        this.mtotal = this.subtotal;
+                        this.balanceof();
                     },
 
                     sumofvalue() {
