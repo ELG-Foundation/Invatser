@@ -18,6 +18,7 @@ class UserInvoice extends Model
         'create_date',
         'due_date',
         'balance',
+        'paid',
     ];
 
     public function user()

@@ -114,13 +114,13 @@
                                     <td>{{$item->mode}}</td>
                                     <td>00{{$item->id}}</td>
                                     <td>{{ $item->status}}</td>
-                                    <td>{{$item->id}}</td>
+                                    <td>{{$item->amount}}</td>
                                     <td>{{$item->created_at->format('d M y')}}</td>
 
                                     <td>
                                         <div class="flex justify-end">
                                             <div class="dropdown" data-placement="bottom-start">
-                                                <div wire:click='delete()' class="dropdown-toggle">
+                                                <div wire:click='delete({{$item->id}})' class="dropdown-toggle">
                                                     <iconify-icon icon="solar:trash-bin-minimalistic-line-duotone"
                                                         class="text-2xl text-danger-500"></iconify-icon>
                                                 </div>

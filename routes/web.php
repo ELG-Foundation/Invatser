@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Index\HomeController;
 use App\Livewire\Auth\LoginPg;
 use App\Livewire\Auth\SignupPg;
 use App\Livewire\Test;
@@ -11,6 +12,7 @@ use App\Livewire\User\InvoiceUser;
 use App\Livewire\User\PaymentPg;
 use App\Livewire\User\ProductIndex;
 use App\Livewire\User\UserSettings;
+use App\Livewire\User\WP\WhatIndex;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -26,9 +28,7 @@ use Illuminate\Support\Facades\Route;
 
 /*==================Guest Routes==================*/
 Route::group(['/'], function () {
-    Route::get('/', function () {
-        return view('welcome');
-    });
+    Route::get('/', [HomeController::class, 'index'])->name('index');
     Route::get('dashboard', LoginPg::class)->name('dashboard');
     Route::get('test', Test::class);
 });
@@ -50,6 +50,7 @@ Route::group(['middleware' => ['IsUser'], 'prefix' => 'user'], function () {
     Route::get('client', ClientPg::class)->name('user.clnt');
     Route::get('payment', PaymentPg::class)->name('user.pay');
     Route::get('setting', UserSettings::class)->name('user.set');
+    Route::get('whatsapp', WhatIndex::class)->name('user.wat');
     Route::get('logout', [LoginPg::class, 'logout'])->name('user.out');
 });
 

@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('subtotal')->nullable();
             $table->string('mtoal')->nullable();
             $table->string('balance')->nullable();
+            $table->string('paid')->nullable();
             $table->string('create_date')->nullable();
             $table->string('due_date')->nullable();
             $table->string('status')->nullable();

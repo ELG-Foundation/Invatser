@@ -22,6 +22,7 @@ return new class extends Migration
             $table->foreign('invoice_id')->references('id')->on('user_invoices')->onDelete('cascade');
             $table->string('status')->nullable();
             $table->string('mode')->nullable();
+            $table->boolean('used')->default(false);
             $table->timestamps();
         });
     }

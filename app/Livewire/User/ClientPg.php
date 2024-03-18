@@ -87,6 +87,8 @@ class ClientPg extends Component
             ]);
     
             $this->reset();
+
+            $this->dispatch('success', title: 'Client Added Successfull');
     
             $this->count = 1;
 

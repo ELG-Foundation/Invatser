@@ -12,8 +12,10 @@ use Illuminate\Support\Arr;
 use Livewire\Attributes\Rule;
 use Livewire\Component;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Livewire\Attributes\On;
 use Livewire\Attributes\Title;
 use Livewire\WithPagination;
+use Symfony\Component\ErrorHandler\ThrowableUtils;
 
 class InvoiceUser extends Component
 {
@@ -90,20 +92,20 @@ class InvoiceUser extends Component
     
                 $jsonArray[] = $js;
             }
-    
+
             $json = json_encode($jsonArray);
-    
+
             $this->jsonArray = $json;
             // dd($client);
-    
+
             // $val = validator([
             //     'subtotal' => 'required',
             //     'mtoal' => 'required',
             //     'client' => 'required',
             // ]);
-    
+
             // dd($subtotal, $mtotal, $client);
-    
+
             UserInvoice::create([
                 'user_id' => auth()->user()->id,
                 'client_id' => $client,
@@ -134,31 +136,41 @@ class InvoiceUser extends Component
                 $ipt2 =  $efield[$i]['txt2'];
                 $ipt3 =  $efield[$i]['txt3'];
                 $total = $efield[$i]['total'];
-    
+
                 $js = ([
                     'product' => $ipt3,
                     'price' => $ipt1,
                     'quantity' => $ipt2,
                     'total' => $total,
                 ]);
-    
+
                 $jsonArray[] = $js;
             }
-    
+
             $json = json_encode($jsonArray);
-    
+
             $this->jsonArray = $json;
+
+            $paid = UserPayment::where('user_id', auth()->user()->id)
+                ->where('invoice_id', $this->cus->id)
+                ->first();
+
+            if (!is_null($paid) && !is_null($paid->amount)) {
+                $bal = $this->cus->mtoal - $paid->amount;
+            } else {
+                $bal = $mtotal;
+            }
 
             $this->cus->update([
                 'product' =>  $this->jsonArray,
                 'subtotal' => $subtotal,
-                'mtoal' => $mtotal,
+                'mtoal' => $bal,
                 'balance' => $balance,
                 'due_date' => $ddate,
             ]);
-    
+
             $this->dispatch('success', title: 'Invoice Updated Successfully!');
-    
+
             $this->count = 1;
         } else {
             $this->dispatch('error', title: 'Unexpected Error!');
@@ -190,6 +202,14 @@ class InvoiceUser extends Component
             foreach ($pay as $value) {
                 $this->total += $value->amount;
             }
+        }
+
+        if (is_null($used->address)) {
+            $usna = ucfirst(auth()->user()->name);
+            $this->dispatch('warning', title: "{$usna} Address Not Found!");
+
+            $this->redirectRoute('user.set', navigate: true);
+            return;
         }
 
         if ($invo != null) {
@@ -232,8 +252,6 @@ class InvoiceUser extends Component
 
             if (!is_null($usrm)) {
                 $this->balan = $usrm->mtoal;
-            } else {
-                $this->dispatch('error', title: 'Unexpeted Error!');
             }
         } else {
             $this->balan = null;

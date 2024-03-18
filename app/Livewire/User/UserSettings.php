@@ -24,9 +24,9 @@ class UserSettings extends Component
 
     public string $zip = '';
 
-    public string $timezone = '';
+    public $timezone;
 
-    public string $currency = '';
+    public $currency;
 
     public bool $deskn = false;
 
@@ -36,6 +36,10 @@ class UserSettings extends Component
 
     public $usd;
 
+    public $ocount;
+
+    public $obox;
+
     public function render()
     {
         return view('livewire.user.user-settings');
@@ -44,6 +48,8 @@ class UserSettings extends Component
     public function mount()
     {
         $this->usd = User::findOrFail(auth()->user()->id);
+
+        $this->ocount = 1;
 
         if (!is_null($this->usd->address)) {
             $address = json_decode($this->usd->address, true);
@@ -56,6 +62,11 @@ class UserSettings extends Component
             $this->city = $address['city'] ?? '';
             $this->zip = $address['zip'] ?? '';
             $this->country = $address['country'];
+        } else {
+            $this->name = $this->usd->name ?? '';
+            $this->email = $this->usd->email ?? '';
+            $this->phone = $this->usd->phone ?? '';
+            $this->company = $this->usd->company ?? '';
         }
 
         
@@ -91,10 +102,45 @@ class UserSettings extends Component
         ]);
     }
 
+    public function tcsave()
+    {
+        $this->validate([
+            'currency' => 'nullable',
+            'timezone' => 'nullable',
+        ]);
+
+        if ($this->timezone == null) {
+            $this->timezone = 'Asia/Kolkata';
+        }
+        
+        $this->usd->update([
+            'timezone' => $this->timezone,
+            'currency' => $this->currency,
+        ]);
+
+        $this->dispatch('success', title: 'Updated Successfully!');
+    }
+
     public function cancle()
     {
         $this->reset();
         
         $this->mount();
+    }
+
+    public function upass()
+    {
+        if ($this->ocount == 1) {
+            $this->obox = 2;
+        } elseif ($this->ocount == 2) {
+
+            dd(false);
+        }
+    }
+
+
+    public function ocancle()
+    {
+        $this->obox = 1;
     }
 }

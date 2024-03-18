@@ -24,6 +24,10 @@ class User extends Authenticatable
         'phone',
         'company',
         'address',
+        'timezone',
+        'currency',
+        'noti',
+        'deletep'
     ];
 
     /**

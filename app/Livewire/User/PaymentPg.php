@@ -2,9 +2,11 @@
 
 namespace App\Livewire\User;
 
+use App\Models\User;
 use App\Models\UserClient;
 use App\Models\UserInvoice;
 use App\Models\UserPayment;
+use Livewire\Attributes\On;
 use Livewire\Attributes\Rule;
 use Livewire\Component;
 use Symfony\Contracts\Service\Attribute\Required;
@@ -89,18 +91,48 @@ class PaymentPg extends Component
             'mode' => $this->mode,
         ]);
 
-        $iuid = UserInvoice::where('id', $this->invoid)->latest()->first();
+        $invoice = UserInvoice::Where('id', $this->invoid)->first();
 
-        if ($iuid->user_id == auth()->user()->id) {
+        
 
-            $mtal['mtoal'] = $iuid->mtoal - $this->amoutn;
-
-            $iuid->update($mtal);
-
+        if (!is_null($invoice->paid)) {
+            $nal2 = $invoice->paid + $this->amoutn;
+            $nall = $invoice->total - $nal2;
+            $tpaid = $nal2;
         } else {
-            $this->dispatch('error', title: 'Unexpected Error');
+            $nall = $invoice->mtoal - $this->amoutn;
+            $tpaid = $this->amoutn;
         }
+        
+        $invoice->update([
+            'mtoal' => $nall,
+            'paid' => $tpaid,
+        ]);
 
         $this->dispatch('success', title: 'Payment Added Successfull');
+
+        $this->count = 1;
+    }
+
+    public function delete($id)
+    {
+        $uinvo = UserPayment::where('id', $id)->first();
+        $invoice = UserInvoice::Where('id', $uinvo->invoice_id)->first();
+
+        if ($uinvo != null) {
+            if (!is_null($invoice->paid)) {
+                $nam = $invoice->paid - $uinvo->amount;
+                $nam2 = $invoice->mtoal - $uinvo->amount;
+
+                $invoice->update([
+                    'mtoal' => $nam2,
+                    'paid' => $nam,
+                ]);
+            }
+            UserPayment::find($id)->delete();
+            $this->dispatch('success', title: 'Invoice Deleted Successfully!');
+        } else {
+            $this->dispatch('warning', title: 'Invoice Not Found!');
+        }
     }
 }

@@ -25,7 +25,8 @@
           <div class="card">
             <div class="card-body flex flex-col items-center">
               <div class="relative my-2 h-24 w-24 rounded-full">
-                <img src="{{ asset(auth()->user()->profile) }}" alt="avatar-img" id="user-image" class="h-full w-full rounded-full" />
+                <img src="{{ asset(auth()->user()->profile) }}" alt="avatar-img" id="user-image"
+                  class="h-full w-full rounded-full" />
                 <label for="upload-avatar"
                   class="absolute bottom-0 right-0 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-slate-50 p-2 dark:bg-slate-900">
                   <span class="text-slate-600 dark:text-slate-300">
@@ -176,6 +177,39 @@
               </form>
             </div>
           </div>
+
+          <!-- OTP Box -->
+
+          @if ($obox == 2)
+          <div x-data="{ otp: false }" @click.outside="$wire.ocancle()" x-trap.noscroll="open" class="card absolute top-0 left-0 w-full h-screen z-[60] !bg-white/50 !backdrop-blur-sm">
+            <div class="w-full h-full flex justify-center items-center">
+              <div class="w-1/4 h-60 bg-violet-300">
+                <div class="card-body">
+                  <h2 class="text-[16px] font-semibold text-slate-700 dark:text-slate-300">Enter verification code</h2>
+                  <p class="mb-4 text-sm font-normal text-slate-400">
+                    We Send a Password Reset Code To Mail
+                  </p>
+                  <form class="flex flex-col gap-5">
+                    <div class="grid grid-cols-1 gap-5 md:grid-cols-1">
+                      <label class="label" for="new-password">
+                        <span class="my-1 block">Code</span>
+                        <input wire:click.debounce.50ms='upass' type="number" class="input [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
+                      </label>
+                    </div>
+                    <!-- Button  -->
+                    <div class="flex items-center justify-end gap-4">
+                      <button type="cancel" wire:click='ocancle'
+                        class="btn border border-slate-300 text-slate-500 dark:border-slate-700 dark:text-slate-300">
+                        Cancel
+                      </button>
+                      <button type="submit" class="btn btn-primary">Check</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+          @endif
           <!-- Change Password  -->
           <div class="card">
             <div class="card-body">
@@ -212,11 +246,11 @@
               <p class="mb-4 text-sm font-normal text-slate-400">
                 Make the most of your experience by customizing your preferences
               </p>
-              <form method="get" class="flex flex-col gap-5">
+              <form wire:submit.prevent='tcsave' class="flex flex-col gap-5">
                 <div class="grid grid-cols-1 gap-5 md:grid-cols-2">
                   <label class="label" for="new-password">
                     <span class="my-1 block">Time Zone</span>
-                    <select class="select">
+                    <select wire:model='timezone' class="select">
                       <option value="1" selected>GMT - 07:00 Pacific Time</option>
                       <option value="2">UTC + 06:00 Dhaka Time</option>
                       <option value="3">UTC + 07:00 Samoa Time</option>
@@ -232,18 +266,19 @@
                   </label>
                   <label class="label" for="confirm-password">
                     <span class="my-1 block">Currency</span>
-                    <select class="select">
-                      <option value="₹" selected>INR</option>
+                    <select wire:model='currency' class="select">
+                      <option>Select Currency</option>
+                      <option value="&#x20B9;" selected>INR</option>
                     </select>
                   </label>
                 </div>
                 <!-- Button  -->
                 <div class="flex items-center justify-end gap-4">
-                  <button type="cancel"
+                  <button type="cancel" wire:click='cancle'
                     class="btn border border-slate-300 text-slate-500 dark:border-slate-700 dark:text-slate-300">
                     Cancel
                   </button>
-                  <button type="submit" class="btn btn-primary">Update</button>
+                  <button type="submit" class="btn bg-[#8b5cf6]">Update</button>
                 </div>
               </form>
             </div>

@@ -6,14 +6,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Invoice</title>
     <link rel="stylesheet" href="invoice.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <style>
+
+        @font-face {
+            font-family: "Noto Sans", sans-serif;
+            font-optical-sizing: auto;
+            font-weight: <weight>;
+            font-style: normal;
+            font-variation-settings: "wdth" 100;
+        }
+
         * {
             margin: 0;
             padding: 0;
         }
 
         body {
-            font-family: "Inter", sans-serif;
+            font-style: 'Nobile', sans-serif;
             margin: 0;
             padding: 0;
             background-color: #f4f4f4;
@@ -215,6 +227,10 @@
         .add_margin {
             padding-top: 15px;
         }
+
+        .noto-font {
+            font-family: "Noto Sans", sans-serif;
+        }
     </style>
 </head>
 
@@ -286,9 +302,9 @@
                             <td class="tm_width_6 tm_accent_border_20">
                                 <b class="tm_primary_color tm_medium">{{ $arra[0]['product'] }}</b><br>
                             </td>
-                            <td class="tm_width_2 tm_accent_border_20">&#x20B9; {{ $arra[0]['price'] }}</td>
+                            <td class="tm_width_2 tm_accent_border_20"><span class="noto-font">{{$admin->currency}}</span>{{ $arra[0]['price'] }}</td>
                             <td class="tm_width_1 tm_accent_border_20">{{ $arra[0]['quantity'] }}</td>
-                            <td class="tm_width_2 tm_accent_border_20 tm_text_right">{{ $arra[0]['total'] }}</td>
+                            <td class="tm_width_2 tm_accent_border_20 tm_text_right"><span class="noto-font">{{$admin->currency}}</span>{{ $arra[0]['total'] }}</td>
                         </tr>
                     @else
                         @foreach ($arra as $index => $item)
@@ -297,9 +313,9 @@
                                 <td class="tm_width_6 tm_accent_border_20">
                                     <b class="tm_primary_color tm_medium">{{ $arra[$index]['product'] }}</b><br>
                                 </td>
-                                <td class="tm_width_2 tm_accent_border_20">{{ $arra[$index]['price'] }}</td>
+                                <td class="tm_width_2 tm_accent_border_20"><span class="noto-font">{{$admin->currency}}</span>{{ $arra[$index]['price'] }}</td>
                                 <td class="tm_width_1 tm_accent_border_20">{{ $arra[$index]['quantity'] }}</td>
-                                <td class="tm_width_2 tm_accent_border_20 tm_text_right">{{ $arra[$index]['total'] }}
+                                <td class="tm_width_2 tm_accent_border_20 tm_text_right"><span class="noto-font">{{$admin->currency}}</span>{{ $arra[$index]['total'] }}
                                 </td>
                             </tr>
                         @endforeach
@@ -315,8 +331,7 @@
                             <td class="tm_width_4 tm_primary_color tm_accent_border_20 tm_border_none tm_bold">Subtoal
                             </td>
                             <td
-                                class="tm_width_3 tm_primary_color tm_accent_border_20 tm_text_right tm_border_none tm_bold">
-                                {{ $users->subtotal }}</td>
+                                class="tm_width_3 tm_primary_color tm_accent_border_20 tm_text_right tm_border_none tm_bold"><span class="noto-font">{{$admin->currency}}</span>{{ $users->subtotal }}</td>
                         </tr>
                         {{-- <tr class="tm_border_left tm_border_right tm_accent_border_20">
                             <td class="tm_width_4 tm_primary_color tm_accent_border_20">Tax <span
@@ -326,22 +341,19 @@
                         @if ($users->balance >= 1)
                             <tr class="tm_border_left tm_border_right tm_accent_border_20">
                                 <td class="tm_width_4 tm_primary_color tm_accent_border_20">Balance</td>
-                                <td class="tm_width_3 tm_primary_color tm_accent_border_20 tm_text_right">
-                                    {{ $users->balance }}</td>
+                                <td class="tm_width_3 tm_primary_color tm_accent_border_20 tm_text_right"><span class="noto-font">{{$admin->currency}}</span>{{ $users->balance }}</td>
                             </tr>
                         @endif
 
                         @if (!is_null($paid))
                             <tr class="tm_border_left tm_border_right tm_accent_border_20">
                                 <td class="tm_width_4 tm_primary_color tm_accent_border_20">Paid</td>
-                                <td class="tm_width_3 tm_primary_color tm_accent_border_20 tm_text_right">
-                                    {{ $paid }}</td>
+                                <td class="tm_width_3 tm_primary_color tm_accent_border_20 tm_text_right"><span class="noto-font">{{$admin->currency}}</span>{{ $paid }}</td>
                             </tr>
                         @endif
                         <tr class="tm_border_bottom tm_border_left tm_border_right tm_accent_border_20 tm_accent_bg">
                             <td class="tm_width_4 tm_bold tm_f16 tm_white_color tm_accent_border_20">Grand Total </td>
-                            <td class="tm_width_3 tm_bold tm_f16 tm_white_color tm_accent_border_20 tm_text_right">
-                                {{ $users->mtoal }}</td>
+                            <td class="tm_width_3 tm_bold tm_f16 tm_white_color tm_accent_border_20 tm_text_right"><span class="noto-font">{{$admin->currency}}</span>{{ $users->mtoal }}</td>
                         </tr>
                     </tbody>
                 </table>
