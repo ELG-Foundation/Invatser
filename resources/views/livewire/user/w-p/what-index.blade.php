@@ -73,17 +73,22 @@
         <section class="flex flex-col gap-8 lg:col-span-2 w-full">
             <!-- General  -->
             <div class="rounded-primary bg-white p-6 shadow-sm dark:bg-slate-800">
+                <div class="flex flex-row justify-between">
                 <h5 class="m-0 p-0 text-xl font-semibold text-slate-700 dark:text-slate-200">Scan the QR Code On
                     Your Whatsapp Mobile App</h5>
+                @if ($luser == 2)
+                    <button wire:click.prevent='waout' class="btn bg-[#8b5cf6]">Logout</button>
+                @endif
+                </div>
                 <div class="mt-10 h-[340px] flex justify-center items-center">
-
-                    @if ($count == 1)
+                    {{-- <h1>{{$luser}}</h1> --}}
+                    @if ($luser == 2)
                         <div x-init="code()" class="sk-bounce">
                             <div class="sk-bounce-dot bg-primary-500"></div>
                             <div class="sk-bounce-dot bg-primary-500"></div>
                         </div>
-                    @elseif ($count == 2)
-                        <img src="{{$qrc}}" alt="wb-qr" class="w-72 h-72 border-[1px] shadow-[0px_0px_20px_-5px] shadow-black">
+                    @elseif ($luser == 1)
+                        <img src="{{$qrc}}" x-init="code()" alt="wb-qr" class="w-72 h-72 border-[1px] shadow-[0px_0px_20px_-5px] shadow-black">
                     @endif
 
                 </div>
@@ -100,7 +105,11 @@
 
                     gen() {
                         setInterval(() => {
-                            this.$wire.codeg();
+                            try {
+                                this.$wire.codeg();
+                            } catch (error) {
+                                
+                            }
                         }, 1200);
                     },
 

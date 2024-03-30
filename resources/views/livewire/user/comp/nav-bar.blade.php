@@ -34,14 +34,14 @@
 
                 </a>
             </li>
-            <li>
+            {{-- <li>
                 <a wire:navigate href="./email.html" class="sidebar-menu">
                     <span class="sidebar-menu-icon">
                         <iconify-icon icon="solar:user-line-duotone" class="font-bold text-2xl"></iconify-icon>
                     </span>
                     <span class="sidebar-menu-text">Admin</span>
                 </a>
-            </li>
+            </li> --}}
 
             <li>
                 <a wire:navigate href="{{route('user.clnt')}}" class="sidebar-menu {{request()->routeIs('user.clnt') ? 'active' : ''}}">
@@ -61,14 +61,14 @@
                 </a>
             </li>
 
-            <li>
+            {{-- <li>
                 <a wire:navigate href="./email.html" class="sidebar-menu">
                     <span class="sidebar-menu-icon">
                         <iconify-icon icon="tabler:receipt-tax" class="font-bold text-2xl"></iconify-icon>
                     </span>
                     <span class="sidebar-menu-text">Taxes</span>
                 </a>
-            </li>
+            </li> --}}
 
             <li>
                 <a wire:navigate href="{{ route('user.prod') }}" class="sidebar-menu {{request()->routeIs('user.prod') ? 'active' : ''}}">
@@ -79,14 +79,14 @@
                 </a>
             </li>
 
-            <li>
+            {{-- <li>
                 <a wire:navigate href="./email.html" class="sidebar-menu">
                     <span class="sidebar-menu-icon">
                         <iconify-icon icon="flowbite:quote-outline" class="font-bold text-2xl"></iconify-icon>
                     </span>
                     <span class="sidebar-menu-text">Quotes</span>
                 </a>
-            </li>
+            </li> --}}
 
             <li>
                 <a wire:navigate href="{{ route('user.invo') }}"  class="sidebar-menu {{request()->routeIs('user.invo') ? 'active' : ''}}">
@@ -97,7 +97,7 @@
                 </a>
             </li>
 
-            <li>
+            {{-- <li>
                 <a wire:navigate href="./email.html" class="sidebar-menu">
                     <span class="sidebar-menu-icon">
                         <iconify-icon icon="solar:creative-commons-line-duotone" class="font-bold text-2xl"></iconify-icon>
@@ -113,7 +113,7 @@
                     </span>
                     <span class="sidebar-menu-text">Transactions</span>
                 </a>
-            </li>
+            </li> --}}
 
             <li>
                 <a wire:navigate href="{{ route('user.pay') }}" class="sidebar-menu {{request()->routeIs('user.pay') ? 'active' : ''}}">
@@ -123,7 +123,7 @@
                     <span class="sidebar-menu-text">Payments</span>
                 </a>
             </li>
-
+{{-- 
             <li>
                 <a wire:navigate href="./email.html" class="sidebar-menu">
                     <span class="sidebar-menu-icon">
@@ -131,10 +131,10 @@
                     </span>
                     <span class="sidebar-menu-text">Invoice Template</span>
                 </a>
-            </li>
+            </li> --}}
 
             <li>
-                <a wire:navigate href="{{route('user.wat')}}" class="sidebar-menu">
+                <a wire:navigate href="{{route('user.wat')}}" class="sidebar-menu {{request()->routeIs('user.wat') ? 'active' : ''}}">
                     <span class="sidebar-menu-icon">
                         <iconify-icon icon="mdi:whatsapp" class="font-bold text-2xl"></iconify-icon>
                     </span>
