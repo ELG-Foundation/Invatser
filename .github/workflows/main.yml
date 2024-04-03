@@ -11,6 +11,6 @@ jobs:
     - name: 📂 Sync files
       uses: SamKirkland/FTP-Deploy-Action@v4.3.5
       with:
-        server: ftp://178.18.245.222
+        server: panel.czity.com
         username: ftp_invatser_elg_foundation
         password: enderman_0_
