@@ -4,11 +4,12 @@ const { Client, LocalAuth, MessageMedia } = Whatsapp;
 
 let qrm = '';
 let stat = false;
+let sessionData = {};
 
 const client = new Client({
     authStrategy: new LocalAuth({
-        dataPath: 'public/assets/web/',
-        clientId: 'enderman'
+        clientId: "client-one",
+        dataPath: '/web-js' 
     })
 });
 
@@ -18,6 +19,13 @@ client.on('qr', (qr) => {
     console.log('QR RECEIVED');
     qrm = qr;
 });
+
+
+client.on('authenticated', (session) => {
+    sessionData = JSON.stringify(session);
+    console.log(sessionData);
+});
+
 
 client.on('ready', () => {
     stat = true;
@@ -31,8 +39,6 @@ client.on('message', msg => {
 });
 
 async function deploy_all(req, res) {
-
-    console.log(true);
 
     let media = await MessageMedia.fromUrl(req.body.path);
     const number = `91${req.body.number}@c.us`;
@@ -48,12 +54,16 @@ function logoutde() {
     return true;
 }
 
+function authreturn() {
+
+}
+
 client.initialize();
 
 app.use(express.json());
 
 app.get('/qr', function (req, res) {
-    res.send({qrs: qrm, status: stat, session: 'jelly'})
+    res.send({qrs: qrm, status: stat, session: sessionData})
 })
 
 app.post('/msg/:msg/number/:number', function(req, res) {

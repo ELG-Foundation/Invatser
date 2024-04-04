@@ -112,7 +112,6 @@
                             }
                         }, 1200);
                     },
-
                     code() {
                         setTimeout(() => {
                             this.gen();

@@ -291,7 +291,6 @@ class InvoiceUser extends Component
     #[On('Wamedia')]
     public function wapdf($id)
     {
-
         $invo = UserInvoice::where('user_id', auth()->user()->id)
             ->where('id', $id)
             ->first();

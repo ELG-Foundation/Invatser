@@ -26,7 +26,7 @@ class WhatIndex extends Component
     {
 
         $this->luser = 2;
-        
+
         try {
             $client = Http::timeout(10)->get('http://localhost:3000/qr');
             $this->count = 2;
@@ -42,6 +42,7 @@ class WhatIndex extends Component
                 $this->luser = 1;
             } elseif ($client['status'] == true) {
                 $this->luser = 2;
+                //dd($client);
             }
         }
     }
