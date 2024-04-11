@@ -46,8 +46,8 @@ class InvoiceUser extends Component
         $uid = auth()->user()->id;
 
         return view('livewire.user.invoice-user', [
-            'invoice' => UserInvoice::where('user_id', $uid)->paginate(7),
-            'prodli' => UserProduct::where('user_id', $uid)->paginate(7),
+            'invoice' => UserInvoice::where('user_id', $uid)->paginate(10),
+            'prodli' => UserProduct::where('user_id', $uid)->get(),
             'clntli' => UserClient::where('user_id', $uid)->where('active', true)->get(),
             'cltdat' => UserClient::where('id', $this->customer)->first(),
         ]);

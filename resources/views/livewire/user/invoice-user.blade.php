@@ -149,7 +149,7 @@
             <!-- Product Table Ends -->
 
             <!-- Product Pagination Starts -->
-            {{ $prodli->links() }}
+            {{ $invoice->links() }}
             <!-- Product Pagination Ends -->
         </div>
         <!-- Product List Ends -->
