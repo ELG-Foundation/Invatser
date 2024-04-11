@@ -35,15 +35,12 @@ class PaymentPg extends Component
     #[Rule('required')]
     public $mode = '';
 
-
+    public $uinvo;
 
     public function render()
     {
         return view('livewire.user.payment-pg', [
-            'payment' => UserPayment::with('client')
-            ->where('user_id', auth()->user()->id)
-            ->paginate(7),
-            'client' => UserClient::where('user_id', auth()->user()->id)
+            'payment' => UserPayment::where('user_id', auth()->user()->id)->paginate(7),
         ]);
     }
 
@@ -97,7 +94,7 @@ class PaymentPg extends Component
 
         if (!is_null($invoice->paid)) {
             $nal2 = $invoice->paid + $this->amoutn;
-            $nall = $invoice->total - $nal2;
+            $nall = $invoice->subtotal - $nal2;
             $tpaid = $nal2;
         } else {
             $nall = $invoice->mtoal - $this->amoutn;
@@ -109,6 +106,8 @@ class PaymentPg extends Component
             'paid' => $tpaid,
         ]);
 
+        $this->reset();
+
         $this->dispatch('success', title: 'Payment Added Successfull');
 
         $this->count = 1;
@@ -116,21 +115,29 @@ class PaymentPg extends Component
 
     public function delete($id)
     {
-        $uinvo = UserPayment::where('id', $id)->first();
-        $invoice = UserInvoice::Where('id', $uinvo->invoice_id)->first();
+        $this->uinvo = UserPayment::where('id', $id)->first();
+        $invoice = UserInvoice::Where('id', $this->uinvo->invoice_id)->first();
 
-        if ($uinvo != null) {
+        if ($this->uinvo != null) {
             if (!is_null($invoice->paid)) {
-                $nam = $invoice->paid - $uinvo->amount;
-                $nam2 = $invoice->mtoal - $uinvo->amount;
+                $nam = $invoice->paid - $this->uinvo->amount;
+                $nam2 = $this->uinvo->amount + $invoice->mtoal;
+
+                if ( $nam == 0) {
+                    $nam = null;
+                }
 
                 $invoice->update([
                     'mtoal' => $nam2,
                     'paid' => $nam,
                 ]);
+
+                $this->uinvo->delete($this->uinvo);
+
+                $this->dispatch('success', title: 'Invoice Deleted Successfully!');
+            } else {
+                $this->dispatch('error', title: 'Unexpected Error!');
             }
-            UserPayment::find($id)->delete();
-            $this->dispatch('success', title: 'Invoice Deleted Successfully!');
         } else {
             $this->dispatch('warning', title: 'Invoice Not Found!');
         }

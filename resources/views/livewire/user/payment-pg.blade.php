@@ -1,7 +1,7 @@
 <div>
     <main class="container flex-grow p-4 sm:p-6">
         <!-- Page Title Starts -->
-        <div class="mb-6 flex flex-col justify-between gap-y-1 sm:flex-row sm:gap-y-0">
+        <div class="flex flex-col gap-y-1 justify-between mb-6 sm:flex-row sm:gap-y-0">
             <h5>Product List</h5>
 
             <ol class="breadcrumb">
@@ -19,28 +19,28 @@
         <!-- Product List Starts -->
         <div class="space-y-4">
             <!-- Product Header Starts -->
-            <div class="flex flex-col items-center justify-between gap-y-4 md:flex-row md:gap-y-0">
+            <div class="flex flex-col gap-y-4 justify-between items-center md:flex-row md:gap-y-0">
                 <!-- Customer Search Starts -->
                 @if ($count == 1)
                     <form
-                        class="group flex h-10 w-full items-center rounded-primary border border-transparent bg-white shadow-sm focus-within:border-primary-500 focus-within:ring-1 focus-within:ring-inset focus-within:ring-primary-500 dark:border-transparent dark:bg-slate-800 dark:focus-within:border-primary-500 md:w-72">
-                        <div class="flex h-full items-center px-2">
+                        class="flex items-center w-full h-10 bg-white border border-transparent shadow-sm group rounded-primary focus-within:border-primary-500 focus-within:ring-1 focus-within:ring-inset focus-within:ring-primary-500 dark:border-transparent dark:bg-slate-800 dark:focus-within:border-primary-500 md:w-72">
+                        <div class="flex items-center px-2 h-full">
                             <i class="h-4 text-slate-400 group-focus-within:text-primary-500" data-feather="search"></i>
                         </div>
                         <input
-                            class="h-full w-full border-transparent bg-transparent px-0 text-sm placeholder-slate-400 placeholder:text-sm focus:border-transparent focus:outline-none focus:ring-0"
+                            class="px-0 w-full h-full text-sm bg-transparent border-transparent placeholder-slate-400 placeholder:text-sm focus:border-transparent focus:outline-none focus:ring-0"
                             type="text" placeholder="Search" />
                     </form>
                 @endif
                 <!-- Customer Search Ends -->
 
                 <!-- Customer Action Starts -->
-                <div class="flex w-full items-center justify-between gap-x-4 md:w-auto">
+                <div class="flex gap-x-4 justify-between items-center w-full md:w-auto">
                     @if ($count == 1)
-                        <div class="flex items-center gap-x-4">
+                        <div class="flex gap-x-4 items-center">
                             <div class="dropdown" data-placement="bottom-end">
                                 <div class="dropdown-toggle">
-                                    <button type="button" class="btn bg-white font-medium shadow-sm dark:bg-slate-800">
+                                    <button type="button" class="font-medium bg-white shadow-sm btn dark:bg-slate-800">
                                         <iconify-icon icon="solar:filter-line-duotone" class="text-2xl"></iconify-icon>
                                         <span class="hidden sm:inline-block">Filter</span>
                                         <iconify-icon icon="solar:alt-arrow-down-line-duotone" class="text-2xl">
@@ -48,10 +48,10 @@
                                     </button>
                                 </div>
                                 <div class="dropdown-content w-72 !overflow-visible">
-                                    <ul class="dropdown-list space-y-4 p-4">
+                                    <ul class="p-4 space-y-4 dropdown-list">
                                         <li class="dropdown-list-item">
                                             <h2 class="my-1 text-sm font-medium">Category</h2>
-                                            <select class="tom-select w-full" autocomplete="off">
+                                            <select class="w-full tom-select" autocomplete="off">
                                                 <option value="">Select a Category</option>
                                                 <option value="1">Electronics</option>
                                                 <option value="2">Fashion</option>
@@ -70,7 +70,7 @@
                                     </ul>
                                 </div>
                             </div>
-                            <button class="btn bg-white font-medium shadow-sm dark:bg-slate-800">
+                            <button class="font-medium bg-white shadow-sm btn dark:bg-slate-800">
                                 <iconify-icon icon="solar:export-line-duotone" class="text-2xl"></iconify-icon>
                                 <span class="hidden sm:inline-block">Export</span>
                             </button>
@@ -92,7 +92,7 @@
             <!-- Product Header Ends -->
             @if ($count == 1)
                 <!-- Product Table Starts -->
-                <div class="table-responsive whitespace-nowrap rounded-primary">
+                <div class="whitespace-nowrap table-responsive rounded-primary">
                     <table class="table">
                         <thead>
                             <tr>
@@ -120,7 +120,7 @@
                                     <td>
                                         <div class="flex justify-end">
                                             <div class="dropdown" data-placement="bottom-start">
-                                                <div wire:click='delete({{$item->id}})' class="dropdown-toggle">
+                                                <div wire:confirm="Are you sure you want to delete?" wire:click='delete({{$item->id}})' class="dropdown-toggle">
                                                     <iconify-icon icon="solar:trash-bin-minimalistic-line-duotone"
                                                         class="text-2xl text-danger-500"></iconify-icon>
                                                 </div>
@@ -143,30 +143,30 @@
             <form wire:submit='savepay'>
                 <div class="grid grid-cols-1 gap-6 lg:grid-cols-3 heigfull">
                     <!-- Left side Div Start -->
-                    <section class="flex flex-col gap-8 lg:col-span-2 w-full">
+                    <section class="flex flex-col gap-8 w-full lg:col-span-2">
                         <!-- General  -->
-                        <div class="rounded-primary bg-white p-6 shadow-sm dark:bg-slate-800">
-                            <h5 class="m-0 p-0 text-xl font-semibold text-slate-700 dark:text-slate-200">Product</h5>
-                            <p class="mb-4 p-0 text-sm font-normal text-slate-400">
+                        <div class="p-6 bg-white shadow-sm rounded-primary dark:bg-slate-800">
+                            <h5 class="p-0 m-0 text-xl font-semibold text-slate-700 dark:text-slate-200">Product</h5>
+                            <p class="p-0 mb-4 text-sm font-normal text-slate-400">
                                 Basic information of your product
                             </p>
                             <div class="py-2">
-                                <label class="label label-required mb-1 font-medium" for="name">Amount Recived</label>
+                                <label class="mb-1 font-medium label label-required" for="name">Amount Recived</label>
                                 <input required type="number" wire:model='amoutn'
                                     class="input @error('pname') is-invalid @enderror [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                     id="name" />
                             </div>
                             <div class="py-2">
-                                <label for="invoice-date" class="label label-required mb-1 font-medium">Date:</label>
-                                <div class="flex w-full flex-col items-start gap-2 sm:items-center md:flex-row">
+                                <label for="invoice-date" class="mb-1 font-medium label label-required">Date:</label>
+                                <div class="flex flex-col gap-2 items-start w-full sm:items-center md:flex-row">
 
                                     <input required wire:model='date' id="invoice-date"
-                                        class="input input-date bg-white dark:bg-slate-800" type="text"
+                                        class="bg-white input input-date dark:bg-slate-800" type="text"
                                         x-mask="99-99-9999" placeholder="DD-MM-YYYY" />
                                 </div>
                             </div>
                             <div class="py-2">
-                                <label class="label label-required mb-1 font-medium">Admin Note</label>
+                                <label class="mb-1 font-medium label label-required">Admin Note</label>
                                 <textarea wire:model='note' class="textarea text-start @error('pdesc') is-invalid @enderror" rows="5"
                                     placeholder="Write message"></textarea>
                             </div>
@@ -177,12 +177,12 @@
                     <!-- Right Side Div Start  -->
                     <section class="h-full lg:col-span-1">
                         <!-- Organization -->
-                        <div class="sticky top-20 rounded-primary bg-white p-6 shadow dark:bg-slate-800">
-                            <h5 class="m-0 p-0 text-xl font-semibold text-slate-700 dark:text-slate-200">Organization</h5>
-                            <p class="mb-4 p-0 text-sm font-normal text-slate-400">Better organize your product</p>
+                        <div class="sticky top-20 p-6 bg-white shadow rounded-primary dark:bg-slate-800">
+                            <h5 class="p-0 m-0 text-xl font-semibold text-slate-700 dark:text-slate-200">Organization</h5>
+                            <p class="p-0 mb-4 text-sm font-normal text-slate-400">Better organize your product</p>
                             <div class="flex flex-col gap-4">
                                 <div>
-                                    <label class="label label-required mb-1 font-medium" for="status">Invoice</label>
+                                    <label class="mb-1 font-medium label label-required" for="status">Invoice</label>
                                     <select wire:model.live='invoid' class="select @error('pstat') is-invalid @enderror"
                                         id="status">
                                         <option>Select Invoice</option>
@@ -196,7 +196,7 @@
                                     </select>
                                 </div>
                                 <div>
-                                    <label class="label label-required mb-1 font-medium" for="status"> Status </label>
+                                    <label class="mb-1 font-medium label label-required" for="status"> Status </label>
                                     <select wire:model='stat' class="select @error('pstat') is-invalid @enderror"
                                         id="status">
                                         <option>Select Status</option>
@@ -206,7 +206,7 @@
                                     </select>
                                 </div>
                                 <div>
-                                    <label class="label label-required mb-1 font-medium" for="status"> Payment Method
+                                    <label class="mb-1 font-medium label label-required" for="status"> Payment Method
                                     </label>
                                     <select wire:model='mode' class="select @error('pstat') is-invalid @enderror"
                                         id="status">

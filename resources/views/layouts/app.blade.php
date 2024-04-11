@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="icon" href="{{ asset('/images/logo-small.svg') }}" type="image/svg+xml" />
-  <title>{{$title ?? 'Dash'}} - Invatser</title>
+  <title>{{$title ?? 'Dash'}} - Invatser4</title>
   <meta name="description"
     content="Admin Toolkit is a modern admin dashboard template based on Tailwindcss. It comes with a variety of useful ui components and pre-built pages" />
   {{-- <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -16,7 +16,7 @@
     rel="stylesheet" />
   <link rel="stylesheet" href="{{ asset('assets/scss/app.scss') }}" />
   <link rel="stylesheet" href="{{ asset('assets/css/app.css') }}">
-  <link rel="stylesheet" href="{{ asset('assets/css/app-ALJNbI_c.css') }}">
+  <link rel="stylesheet" href="{{ asset('build/assets/app-LMFL3xo1.css') }}">
   @vite('resources/css/app.css')
   
   <script>
@@ -61,11 +61,12 @@
     @livewire('user.comp.search-pg')
     <!-- Search Modal Ends -->
   </div>
-
+  
   @stack('js')
 
   @livewireScripts
   <script src="https://code.iconify.design/iconify-icon/1.0.8/iconify-icon.min.js"></script>
+  <script src="{{ asset('build/assets/app-D2jpX1vH.js') }}"></script>
 </body>
 
 </html>
