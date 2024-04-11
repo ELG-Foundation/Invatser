@@ -40,7 +40,7 @@ class PaymentPg extends Component
     public function render()
     {
         return view('livewire.user.payment-pg', [
-            'payment' => UserPayment::where('user_id', auth()->user()->id)->paginate(7),
+            'payment' => UserPayment::where('user_id', auth()->user()->id)->orderBy('created_at', 'desc')->paginate(7),
         ]);
     }
 
