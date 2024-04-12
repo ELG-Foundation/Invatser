@@ -742,13 +742,12 @@
     <script>
         function handler() {
             return {
-                fields: []
-                , efield: []
-                , subtotal: 0
-                , balance: 0
-                , mtotal: 0
-                , client: null
-                , ddate: null,
+                fields: [], 
+                efield: [], 
+                subtotal: 0, 
+                balance: 0, 
+                mtotal: 0, 
+                client: null, ddate: null,
 
                 init() {
                     this.client = null;

@@ -48,7 +48,7 @@ async function deploy_all(req, res) {
 }
 
 function logoutde() {
-    client.logout(0);
+    client.logout();
     client.initialize();
     stat = false;
     return true;

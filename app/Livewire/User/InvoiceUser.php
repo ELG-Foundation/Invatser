@@ -80,7 +80,7 @@ class InvoiceUser extends Component
     {
         if ($this->count == 2) {
             for ($i = 0; $i < count($fields); $i++) {
-
+                
                 $ipt1 =  $fields[$i]['txt1'];
                 $ipt2 =  $fields[$i]['txt2'];
                 $ipt3 =  $fields[$i]['txt3'];
@@ -135,7 +135,8 @@ class InvoiceUser extends Component
         if ($this->count == 3) {
 
             for ($i = 0; $i < count($efield); $i++) {
-
+                dd($efield[$i]);
+                
                 $ipt1 =  $efield[$i]['txt1'];
                 $ipt2 =  $efield[$i]['txt2'];
                 $ipt3 =  $efield[$i]['txt3'];
