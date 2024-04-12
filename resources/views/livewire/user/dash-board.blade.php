@@ -366,7 +366,7 @@
                         <p class="my-1 text-sm text-slate-400">{!! $code !!} {{ number_format($tsales)}} Total Sales</p>
                         <div class="mt-auto divide-y dark:divide-slate-600">
                             <!-- Emails  -->
-                            @foreach ($msales as $key => $item)
+                            @foreach ( array_slice($msales, 0, 5) as $key => $item)
                                 <div class="flex gap-4 items-center py-2">
                                     <div
                                         class="flex justify-center items-center w-12 h-12 bg-opacity-20 min-w-12 rounded-primary bg-primary-500 text-primary-500">
