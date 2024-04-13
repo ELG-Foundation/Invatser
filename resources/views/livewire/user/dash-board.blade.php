@@ -340,13 +340,13 @@
             <!-- Campaign & Source Visited Section Start  -->
             <section class="grid grid-cols-1 gap-6 lg:grid-cols-2">
                 <!-- Monthly Campaign State  -->
-                <div class="card">
+                <div x-data="{ open: false }" class="card">
                     <div class="flex flex-col h-full card-body">
                         <!-- Header  -->
                         <div class="flex justify-between w-full">
                             <h6>Sales Analytics</h6>
                             <div class="dropdown" data-placement="bottom-end">
-                                <div class="dropdown-toggle">
+                                <div @click="open = ! open" class="dropdown-toggle">
                                     <i class="text-lg ti ti-dots-vertical text-slate-500"></i>
                                 </div>
                                 <div class="dropdown-content w-[160px]">

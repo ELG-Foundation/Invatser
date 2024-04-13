@@ -135,7 +135,6 @@ class InvoiceUser extends Component
         if ($this->count == 3) {
 
             for ($i = 0; $i < count($efield); $i++) {
-                dd($efield[$i]);
                 
                 $ipt1 =  $efield[$i]['txt1'];
                 $ipt2 =  $efield[$i]['txt2'];
@@ -160,10 +159,11 @@ class InvoiceUser extends Component
                 ->where('invoice_id', $this->cus->id)
                 ->first();
 
-            if (!is_null($paid) && !is_null($paid->amount)) {
-                $bal = $this->cus->mtoal - $paid->amount;
-            } else {
+            if (is_null($paid) || is_null($paid->amount)) {
                 $bal = $mtotal;
+            } else {
+                $balanceToUse = !is_null($balance) ? $balance : $this->cus->balance;
+                $bal = $this->cus->subtotal + $balanceToUse - $this->cus->paid;
             }
 
             $this->cus->update([
@@ -177,11 +177,11 @@ class InvoiceUser extends Component
             $this->dispatch('success', title: 'Invoice Updated Successfully!');
 
 
-            $cm = UserClient::where('id', $this->cus->client_id)->first();
+            // $cm = UserClient::where('id', $this->cus->client_id)->first();
             
-            $urm = 'http://localhost:3000/msg/' . $mtotal . '/number/' . $cm->phone;
+            // $urm = 'http://localhost:3000/msg/' . $mtotal . '/number/' . $cm->phone;
 
-            $dm = Http::post($urm);
+            // $dm = Http::post($urm);
 
             $this->dispatch('success', title: 'Message Send Successfully!');
 
