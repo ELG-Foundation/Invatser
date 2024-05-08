@@ -11,7 +11,6 @@ use Livewire\Component;
 
 use function Laravel\Prompts\error;
 
-#[Layout('layouts.dash')]
 class LoginPg extends Component
 {
     public $email = '';
