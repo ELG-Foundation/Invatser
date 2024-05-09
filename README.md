@@ -25,6 +25,7 @@ Here are some exciting features on our roadmap:
 - Enhanced mobile support
 - RESTful API integration
 - Mobile application (APK)
+- Multi-Lang
 
 ## Contributing
 
