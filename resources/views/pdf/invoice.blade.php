@@ -309,7 +309,7 @@
                     @else
                         @foreach ($arra as $index => $item)
                             <tr>
-                                <td class="tm_width_1 tm_accent_border_20">1.</td>
+                                <td class="tm_width_1 tm_accent_border_20">{{ $loop->iteration }}</td>
                                 <td class="tm_width_6 tm_accent_border_20">
                                     <b class="tm_primary_color tm_medium">{{ $arra[$index]['product'] }}</b><br>
                                 </td>

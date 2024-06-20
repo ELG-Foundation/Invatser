@@ -109,10 +109,10 @@
                         <tbody wire:poll>
                             @foreach ($payment as $item)
                                 <tr>
-                                    <td>100{{$item->id}}</td>
+                                    <td>{{$item->id}}</td>
                                     <td>{{$item->invoice_id}}</td>
                                     <td>{{$item->mode}}</td>
-                                    <td>00{{$item->id}}</td>
+                                    <td>{{$item->id}}</td>
                                     <td>{{ $item->status}}</td>
                                     <td>{{$item->amount}}</td>
                                     <td>{{$item->created_at->format('d M y')}}</td>

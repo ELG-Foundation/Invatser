@@ -195,7 +195,7 @@
 
                                     <div class="flex flex-col gap-2 items-start w-full sm:items-center md:flex-row">
                                         <label for="invoice-due-date" class="w-full font-medium label md:w-1/3 md:text-right">Due Date:</label>
-                                        <input id="invoice-due-date" class="bg-white input input-date dark:bg-slate-800" type="text" x-mask="99-99-9999" placeholder="DD-MM-YYYY" x-model="ddate" />
+                                        <input id="invoice-due-date" class="bg-white input input-date dark:bg-slate-800" type="date" placeholder="DD-MM-YYYY" x-model="ddate" />
                                     </div>
                                 </div>
                                 <!-- Title and Date End -->

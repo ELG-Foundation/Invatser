@@ -49,7 +49,7 @@ class ProductIndex extends Component
     public function render()
     {
         return view('livewire.user.product-index', [
-            'prodli' => UserProduct::where('user_id', auth()->user()->id)->paginate(9),
+            'prodli' => UserProduct::where('user_id', auth()->user()->id)->orderBy('name', 'ASC')->paginate(9),
             'cateli' => UserCategories::where('user_id', auth()->user()->id)->get(),
         ]);
     }

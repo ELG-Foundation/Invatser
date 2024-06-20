@@ -51,15 +51,15 @@ class PaymentPg extends Component
 
     public function dehydrate()
     {
-        if ($this->invoid != null) {
-            $invoice = UserInvoice::Where('id', $this->invoid)->first();
+        // if ($this->invoid != null) {
+        //     $invoice = UserInvoice::Where('id', $this->invoid)->first();
     
-            if ($invoice) {
-                $this->amoutn = $invoice->mtoal;
-            } else {
-                $this->amoutn = 0;
-            }
-        }
+        //     if ($invoice) {
+        //         $this->amoutn = $invoice->mtoal;
+        //     } else {
+        //         $this->amoutn = 0;
+        //     }
+        // }
     }
 
     public function addpay()
@@ -89,8 +89,6 @@ class PaymentPg extends Component
         ]);
 
         $invoice = UserInvoice::Where('id', $this->invoid)->first();
-
-        
 
         if (!is_null($invoice->paid)) {
             $nal2 = $invoice->paid + $this->amoutn;
